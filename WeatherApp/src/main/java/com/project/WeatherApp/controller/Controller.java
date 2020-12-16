@@ -39,11 +39,6 @@ public class Controller {
 		return new ResponseEntity<> (service.getCityWeather(cityName).toString(), HttpStatus.OK);
     }
 	
-	@GetMapping(value="/country")
-    public ResponseEntity<Object> getCountry(@RequestParam String cityName) {
-		return new ResponseEntity<> (service.getCityInfofromApi(cityName).toString(), HttpStatus.OK);
-    }
-	
 	@GetMapping(value="/visibility")
     public ResponseEntity<Object> getVisibility(@RequestParam String cityName) {
 		return new ResponseEntity<> (service.getVisibilityfromApi(cityName).toString(), HttpStatus.OK);
@@ -71,6 +66,13 @@ public class Controller {
 		return new ResponseEntity<> ("Salvato nel file "+nomeFile , HttpStatus.OK);
 	}
 	
+	@GetMapping(value="/saveEveryHour")
+    public ResponseEntity<Object> saveHour(@RequestParam String cityName) throws IOException {
+		
+		String nomeFile = service.saveEveryHour(cityName);;
+		
+		return new ResponseEntity<> (nomeFile, HttpStatus.OK);
+	}
 	
 	@GetMapping(value="/todayAverage")
     public ResponseEntity<Object> todayAverage(@RequestParam String cityName) throws IOException {
@@ -90,8 +92,18 @@ public class Controller {
 		
 		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
 	}
+		
+	@GetMapping(value="/showHistory")
+    public ResponseEntity<Object> showHistory(@RequestParam String cityName) throws IOException {
+		
+		JSONArray array = new JSONArray();
+		array = service.readHistory(cityName, cityName, cityName);
+		
+		return new ResponseEntity<> (array.toString(), HttpStatus.OK);
+	}
 	
 	
+	/*
 	@GetMapping(value="/stats")
     public ResponseEntity<Object> stats(@RequestParam String cityName) throws IOException, ParseException {
 		
@@ -100,6 +112,7 @@ public class Controller {
 		
 		return new ResponseEntity<> (arr.toString(), HttpStatus.OK);
 	}
+	*/
 	
 	
 	
