@@ -9,6 +9,7 @@ import org.json.JSONArray;
 
 import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -21,7 +22,9 @@ public interface Service {
 	public abstract JSONArray getVisibilityfromApi(String city);
 	public abstract City getCityWeatherRistrictfromApi(String city);
 	public abstract String save(String city) throws IOException;
+	public String saveEveryHour(String cityName);
 	public abstract JSONObject todayAverage(String name);
 	public abstract JSONObject fiveDayAverage(String name);
-	public abstract JSONArray statsHistory(String name1) throws IOException, ParseException;
+	public abstract JSONArray readHistory(String name1, String name2, String name3) throws IOException;
+	//public abstract JSONArray statsHistory(String name1) throws IOException, ParseException;
 }

@@ -5,12 +5,21 @@ package com.project.WeatherApp.service;
 
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import org.json.JSONArray;
 import org.json.simple.parser.*;
 import org.json.JSONObject;
@@ -156,43 +165,121 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		}
 		
 		return city;
-		
 	}
+	
 	
 	public String save(String cityName) throws IOException {
         
-        City city = getCityWeatherRistrictfromApi(cityName);        
+		City city = getCityWeatherRistrictfromApi(cityName);        
         
-        JSONObject obj = new JSONObject();
-        ToJSON tojson = new ToJSON();
+		JSONObject obj = new JSONObject();
+		ToJSON tojson = new ToJSON();
         
-        obj = tojson.parser(city);
-        //String myJsonObjectSerialized = obj.toString();
+		obj = tojson.parser(city);
         
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-        String today = date.format(new Date());
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+		String today = date.format(new Date());
         
-        String nomeFile = cityName+today;
+		String nomeFile = cityName+"_"+today;
         
-        String path = "C:/Users/feder/eclipse-workspace/"+nomeFile+".txt";
+		String path = "C:/Users/feder/eclipse-workspace/"+nomeFile+".txt";
         
-        
-        ObjectOutputStream outputStream = null;
-        try{
-            outputStream = new ObjectOutputStream(new FileOutputStream(path));
-            outputStream.writeObject(obj.toString());
-            outputStream.flush();
-            outputStream.close();
-         }
-        catch (Exception e){
-        System.err.println("Error: " + e);
-        }
-        
-        return nomeFile;
-        
-    }
+		try{
+			
+			PrintWriter file_output = new PrintWriter(new BufferedWriter(new FileWriter(path)));
     
+			file_output.println(obj.toString());
+			file_output.close();
+			
+		}
+		
+		catch (Exception e){
+			System.err.println("Error: " + e);
+		}
+        
+		return nomeFile;
+        
+	}
+	
+	
+	public String saveEveryHour(String cityName) {
+		
+		String path = "C:/Users/feder/eclipse-workspace/HourlyReport.txt";
+		
+		File file = new File(path);
+		
+		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+		scheduler.scheduleAtFixedRate(new Runnable() {
+		    @Override
+		    public void run() {
+		    	
+		    	City city = getCityWeatherRistrictfromApi(cityName);        
+		        
+				JSONObject obj = new JSONObject();
+				ToJSON tojson = new ToJSON();
+		        
+				obj = tojson.parser(city);
+
+		    			try{
+		    			    if(!file.exists()) {
+		    			        file.createNewFile();
+		    			    }
+
+		    			    FileWriter fileWriter = new FileWriter(file, true);
+		    				
+		    				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+		    			    bufferedWriter.write(obj.toString());
+		    			    bufferedWriter.write("\n");
+		    			    
+		    			    bufferedWriter.close();
+		    			    
+		    			} catch(IOException e) {
+		    			    System.out.println(e);
+		    			}
+		    	
+		    }
+		}, 0, 1, TimeUnit.MINUTES);
+		
+		
+		return "Il file è stato salvato in " + path;
+		
+	}
+	
+	public JSONArray readHistory(String name1, String name2, String name3) throws IOException {
+		
+		String path = "C:/Users/feder/eclipse-workspace/HourlyReport.txt";
+		
+			
+			//Scanner file_output = new Scanner(new BufferedReader(new FileReader(path)));
+			String everything;
+			
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			try {
+			    StringBuilder sb = new StringBuilder();
+			    String line = br.readLine();
+
+			    while (line != null) {
+			        sb.append(line);
+			        sb.append(System.lineSeparator());
+			        line = br.readLine();
+			    }
+			    everything = sb.toString();
+			} finally {
+			    br.close();
+			}
+				
+			System.out.println(everything);
+		
+			JSONArray array = new JSONArray(everything);
+	
+			return array;
+			
+	}
+	
+	
+	
     
+	
     public JSONObject todayAverage(String name) {
          
         
@@ -282,106 +369,5 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
         
     }
     
-    public JSONArray statsHistory(String name1) throws IOException, ParseException {
-        
-        JSONObject jsonObject1;
-        JSONObject jsonObject2;
-        
-        String path = "C:/Users/feder/eclipse-workspace/WeatherApp/WeatherApp/prova.txt";
-        
-        BufferedReader reader = new BufferedReader(new FileReader(path));
-        
-        String json = "";
-        try {
-            StringBuilder sb1 = new StringBuilder();
-            String line = reader.readLine();
-
- 
-
-            while (line != "\n") {
-                sb1.append(line);
-                sb1.append("\n");
-                line = reader.readLine();
-            }
-            json = sb1.toString();
-            jsonObject1 = new JSONObject(json);
-            json = "";
-            
-            StringBuilder sb2 = new StringBuilder();
-            while (line != null) {
-                sb2.append(line);
-                sb2.append("\n");
-                line = reader.readLine();
-            }
-            json = sb2.toString();
-            jsonObject2 = new JSONObject(json);
-        } finally {
-            reader.close();
-        }
-        
-        JSONArray arr = new JSONArray();
-        arr.put(jsonObject1);
-        arr.put(jsonObject2);
-        
-        return arr;
-        
-        
-    }
-
- 
-
-    
-    
-    /*
-    public JSONObject statsHistory2(String name1, String name2) throws IOException, ParseException {
-        
-        JSONObject jsonObject1;
-        JSONObject jsonObject2;
-        
-        String path = "C:/Users/feder/eclipse-workspace/WeatherApp/WeatherApp/prova.txt";
-        
-        BufferedReader reader = new BufferedReader(new FileReader(path));
-        
-        String json = "";
-        try {
-            StringBuilder sb = new StringBuilder();
-            String line = reader.readLine();
-
- 
-
-            while (line != null) {
-                sb.append(line);
-                sb.append("\n");
-                line = reader.readLine();
-            }
-            json = sb.toString();
-        } finally {
-            reader.close();
-        }
-        
-        System.out.println(json);
-        
-        /*
-        JSONParser parser = new JSONParser(); 
-        object = (JSONObject) parser.parse(json);
-        
-        try {
-             jsonObject1 = new JSONObject(json);
-             jsonObject2 = new JSONObject(json);
-             JSONObject jsonObject = new JSONObject();
-             jsonObject.put("1", jsonObject1);
-             jsonObject.put("2", jsonObject2);
-             
-             return jsonObject;
-        }catch (JSONException err){
-        }
-        
-        JSONObject obj = new JSONObject();
-        return obj;
-        
-        
-    }
-    */
-	
 	
 }
