@@ -20,4 +20,8 @@ public interface Service {
 	public abstract City getCityInfofromApi(String city);
 	public abstract JSONArray getVisibilityfromApi(String city);
 	public abstract City getCityWeatherRistrictfromApi(String city);
+	public abstract String save(String city) throws IOException;
+	public abstract JSONObject todayAverage(String name);
+	public abstract JSONObject fiveDayAverage(String name);
+	public abstract JSONArray statsHistory(String name1) throws IOException, ParseException;
 }
