@@ -277,9 +277,6 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	}
 	
 	
-	
-    
-	
     public JSONObject todayAverage(String name) {
          
         

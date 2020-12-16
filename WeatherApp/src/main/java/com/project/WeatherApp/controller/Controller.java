@@ -7,17 +7,18 @@ import java.io.IOException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.service.Service;
-import com.project.WeatherApp.service.Statistics;
+import com.project.WeatherApp.utils.Statistics;
 import com.project.WeatherApp.service.ToJSON;
 
 
@@ -32,8 +33,8 @@ public class Controller {
 	
 	@Autowired
 	Service service;
-	Statistics statistic;
-	
+	Statistics statistic = new Statistics();
+
 	@GetMapping(value="/city")
     public ResponseEntity<Object> getCity(@RequestParam String cityName) {
 		return new ResponseEntity<> (service.getCityWeather(cityName).toString(), HttpStatus.OK);
@@ -74,25 +75,6 @@ public class Controller {
 		return new ResponseEntity<> (nomeFile, HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/todayAverage")
-    public ResponseEntity<Object> todayAverage(@RequestParam String cityName) throws IOException {
-		
-		JSONObject obj = new JSONObject();
-		obj = service.todayAverage(cityName);
-		
-		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
-	}
-	
-
-	@GetMapping(value="/fiveDayAverage")
-    public ResponseEntity<Object> fiveDayAverage(@RequestParam String cityName) throws IOException {
-		
-		JSONObject obj = new JSONObject();
-		obj = service.fiveDayAverage(cityName);
-		
-		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
-	}
-		
 	@GetMapping(value="/showHistory")
     public ResponseEntity<Object> showHistory(@RequestParam String cityName) throws IOException {
 		
@@ -102,17 +84,29 @@ public class Controller {
 		return new ResponseEntity<> (array.toString(), HttpStatus.OK);
 	}
 	
-	
-	/*
-	@GetMapping(value="/stats")
-    public ResponseEntity<Object> stats(@RequestParam String cityName) throws IOException, ParseException {
+	@GetMapping(value="/todayAverage")
+    public ResponseEntity<Object> todayAverage(@RequestParam String cityName) throws IOException {
 		
-		JSONArray arr = new JSONArray();
-		arr = service.statsHistory(cityName);
+		JSONObject obj = new JSONObject();
+		obj = statistic.todayAverage(cityName);
 		
-		return new ResponseEntity<> (arr.toString(), HttpStatus.OK);
+		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
 	}
-	*/
+	
+
+	@GetMapping(value="/fiveDayAverage")
+    public ResponseEntity<Object> fiveDayAverage(@RequestParam String cityName) throws IOException {
+		
+		JSONObject obj = new JSONObject();
+		obj = statistic.fiveDayAverage(cityName);
+		
+		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
+	}
+	
+	@PostMapping("/filter")
+    public ResponseEntity<Object> filter(@RequestBody JSONObject object) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 	
 	
 	
