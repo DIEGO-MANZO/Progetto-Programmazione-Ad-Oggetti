@@ -87,7 +87,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	}
 	
 	
-	public City getCityWeatherRistrictfromApi(String name) {
+public City getCityWeatherRistrictfromApi(String name) {
 		
 		JSONObject object = getCityWeather(name);
 		
@@ -95,12 +95,12 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 		city = getCityInfofromApi(name);
 		
-		Weather weather = new Weather();
+		
 		
 		JSONArray weatherArray = object.getJSONArray("list");
 		JSONObject counter;
 		
-		Weather[] vector = new Weather[weatherArray.length()];
+		Vector<Weather> vector = new Vector<Weather>(weatherArray.length());
 		
 		
 		try {
@@ -108,6 +108,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			
 			for (int i = 0; i<weatherArray.length(); i++) {
 				
+				Weather weather = new Weather();
 				counter = weatherArray.getJSONObject(i);
 				weather.setVisibility(counter.getInt("visibility"));
 				weather.setData(counter.getString("dt_txt"));
@@ -119,14 +120,8 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 				weather.setTemp_max(objectW2.getDouble("temp_max"));
 				weather.setTemp_min(objectW2.getDouble("temp_min"));
 				weather.setFeels_like(objectW2.getDouble("feels_like"));
-				vector[i] = new Weather();
-				vector[i].setData(weather.getData());
-				vector[i].setVisibility(weather.getVisibility());
-				vector[i].setTemp_max(weather.getTemp_max());
-				vector[i].setTemp_min(weather.getTemp_min());
-				vector[i].setFeels_like(weather.getFeels_like());
-				vector[i].setDescription(weather.getDescription());
-				vector[i].setMain(weather.getMain());
+				vector.add(weather); 
+		
 			}
 	
 		} catch(Exception e) {
@@ -135,7 +130,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 		city.setVector(vector);
 		
-		
+		System.out.println(vector);
 		
 		return city;
 		
@@ -276,95 +271,6 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			
 	}
 	
-	
-    public JSONObject todayAverage(String name) {
-         
-        
-        City city = new City(name);
-        city = getCityWeatherRistrictfromApi(name);
-        
-        double temp_max_ave = 0;
-        double temp_min_ave = 0;
-        double feels_like_ave = 0;
-        double visibility_ave = 0;
-        
-        int i=0;
-        
-        String date = "";
-        date += (city.getVector()[0].getData()).charAt(8);
-        date += (city.getVector()[0].getData()).charAt(9);
-    
-        String effectiveDate = date;
-        
-        while( date.equals(effectiveDate) ) {
-            temp_max_ave += city.getVector()[i].getTemp_max();
-            temp_min_ave += city.getVector()[i].getTemp_min();
-            feels_like_ave += city.getVector()[i].getFeels_like();
-            visibility_ave += city.getVector()[i].getVisibility();
-            i++;
-            effectiveDate = "";
-            effectiveDate += (city.getVector()[i].getData()).charAt(8);
-            effectiveDate += (city.getVector()[i].getData()).charAt(9);
-        }
-            
-        temp_max_ave = temp_max_ave/i;
-        temp_min_ave = temp_min_ave/i;
-        feels_like_ave = feels_like_ave/i;
-        visibility_ave = visibility_ave/i;
-        
-        JSONObject object = new JSONObject();
-        
-        object.put("CityName", name);
-        object.put("Temp_Max Average", temp_max_ave);
-        object.put("Temp_Min Average", temp_min_ave);
-        object.put("Feels_like Average", feels_like_ave);
-        object.put("Visibility Average", visibility_ave);
-        
-        
-        return object;
-        
-    }
-    
-    
-    public JSONObject fiveDayAverage(String name) {
-         
-        
-        City city = new City(name);
-        city = getCityWeatherRistrictfromApi(name);
-        
-        double temp_max_ave = 0;
-        double temp_min_ave = 0;
-        double feels_like_ave = 0;
-        double visibility_ave = 0;
-        
-        int i=0;
-        
-        while( i<city.getVector().length ) {
-            temp_max_ave += city.getVector()[i].getTemp_max();
-            temp_min_ave += city.getVector()[i].getTemp_min();
-            feels_like_ave += city.getVector()[i].getFeels_like();
-            visibility_ave += city.getVector()[i].getVisibility();
-            i++;
-            }
-            
-        temp_max_ave = temp_max_ave/i;
-        temp_min_ave = temp_min_ave/i;
-        feels_like_ave = feels_like_ave/i;
-        visibility_ave = visibility_ave/i;
-        
-        JSONObject object = new JSONObject();
-        
-        object.put("CityName", name);
-        object.put("Temp_Max Average", temp_max_ave);
-        object.put("Temp_Min Average", temp_min_ave);
-        object.put("Feels_like Average", feels_like_ave);
-        object.put("Visibility Average", visibility_ave);
-
- 
-
-        return object;
-        
-    }
     
 	
 }
