@@ -13,14 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.service.Service;
-import com.project.WeatherApp.utils.FilterTempMax;
 import com.project.WeatherApp.utils.Statistics;
 import com.project.WeatherApp.utils.Filter;
 
@@ -129,6 +126,9 @@ public class Controller {
         return new ResponseEntity<>(array.toString(),HttpStatus.OK);
         
     }
+	
+	
+	
 	
 	
 }

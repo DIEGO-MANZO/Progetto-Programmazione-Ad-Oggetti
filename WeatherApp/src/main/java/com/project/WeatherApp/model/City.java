@@ -4,6 +4,7 @@
 package com.project.WeatherApp.model;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 /**
  * @author Federica
@@ -20,8 +21,7 @@ public class City implements Serializable {
 	private String country;
 	private long id;
 	private Coordinates coordinates;
-	//private Vector<Weather> weatherArray = new Vector<Weather>();
-	private Weather[] vector = new Weather[40];
+	private Vector<Weather> vector = new Vector<Weather>();
 	
 	
 	public City() {
@@ -104,18 +104,18 @@ public class City implements Serializable {
 	}
 	
 
-	public Weather[] getVector() {
+	public Vector<Weather> getVector() {
 		return vector;
 	}
 
-	public void setVector(Weather[] vector) {
+	public void setVector(Vector<Weather> vector) {
 		this.vector = vector;
 	}
 	
 	public String toStringVector() {
 		String toReturn="";
-		for (int i=0; i<vector.length; i++)
-			toReturn += vector[i].toString();
+		for (int i=0; i<vector.size(); i++)
+			toReturn += vector.get(i).toString();
 		return toReturn;
 	}
 
