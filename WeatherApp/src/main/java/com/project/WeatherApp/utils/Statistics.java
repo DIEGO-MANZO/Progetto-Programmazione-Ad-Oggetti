@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 
 import com.project.WeatherApp.model.City;
-import com.project.WeatherApp.service.Service;
 import com.project.WeatherApp.service.ServiceImpl;
 
 
@@ -117,7 +116,6 @@ public class Statistics {
              if (city.getVector().get(i).getVisibility()<min_visibility)
              	min_visibility = city.getVector().get(i).getVisibility();
              i++;
-            i++;
             }
             
         temp_max_ave = temp_max_ave/i;

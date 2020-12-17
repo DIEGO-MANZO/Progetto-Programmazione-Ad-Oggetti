@@ -4,6 +4,9 @@
 package com.project.WeatherApp.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,10 +40,12 @@ public class Controller {
 	Service service;
 	Statistics statistic = new Statistics();
 
+	
 	@GetMapping(value="/city")
     public ResponseEntity<Object> getCity(@RequestParam String cityName) {
 		return new ResponseEntity<> (service.getCityWeather(cityName).toString(), HttpStatus.OK);
     }
+    
 	
 	@GetMapping(value="/visibility")
     public ResponseEntity<Object> getVisibility(@RequestParam String cityName) {
@@ -125,9 +130,37 @@ public class Controller {
 		
         return new ResponseEntity<>(array.toString(),HttpStatus.OK);
         
-    }
+	}
 	
-	
+	@PostMapping("/filters")
+	public ResponseEntity<Object> filters(@RequestBody String body) {
+		
+		JSONObject object = new JSONObject(body);
+        JSONArray array = new JSONArray();
+
+ 
+
+        array = object.getJSONArray("cities");
+        
+        ArrayList<String> cities = new ArrayList<String>(array.length());
+        
+        for(int i=0; i<array.length();i++) {
+            JSONObject obj = new JSONObject();
+            obj = array.getJSONObject(i);
+            cities.add(obj.getString("name"));
+        }
+        
+        String param = object.getString("param");
+        String value = object.getString("value");
+        int period = object.getInt("period");
+		
+        Filter filter;
+		filter = new Filter(cities,param,value,period);
+		array = filter.analyze2();
+        
+		return new ResponseEntity<>(array.toString(),HttpStatus.OK);
+		
+	}
 	
 	
 	
