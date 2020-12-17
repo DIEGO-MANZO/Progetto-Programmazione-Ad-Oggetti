@@ -23,15 +23,15 @@ public class ToJSON {
 		
 		JSONArray arr = new JSONArray();
 		
-		for(int i=0; i<(city.getVector()).length; i++) {
+		for(int i=0; i<(city.getVector()).size(); i++) {
 			JSONObject weather = new JSONObject();
-			weather.put("data", (city.getVector())[i].getData());
-			weather.put("main", (city.getVector())[i].getMain());
-			weather.put("description", (city.getVector())[i].getDescription());
-			weather.put("visibility", (city.getVector())[i].getVisibility());
-			weather.put("temp_max", (city.getVector())[i].getTemp_max());
-			weather.put("temp_min", (city.getVector())[i].getTemp_min());
-			weather.put("feels_like", (city.getVector())[i].getFeels_like());
+			weather.put("data", (city.getVector()).get(i).getData());
+			weather.put("main", (city.getVector()).get(i).getMain());
+			weather.put("description", (city.getVector()).get(i).getDescription());
+			weather.put("visibility", (city.getVector()).get(i).getVisibility());
+			weather.put("temp_max", (city.getVector()).get(i).getTemp_max());
+			weather.put("temp_min", (city.getVector()).get(i).getTemp_min());
+			weather.put("feels_like", (city.getVector()).get(i).getFeels_like());
 			arr.put(weather);
 		}
 		

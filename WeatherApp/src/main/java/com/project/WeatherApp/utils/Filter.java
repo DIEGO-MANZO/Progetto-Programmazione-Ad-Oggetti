@@ -63,6 +63,11 @@ public class Filter {
 						
 		}
 		
+		else if(period==7) {
+			
+		}
+		
+		
 		return array;
 	}
 	
