@@ -1,5 +1,8 @@
 package com.project.WeatherApp.utils;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,237 +10,224 @@ public class FilterVisibility implements FilterStats{
 	
 	Statistics statistic = new Statistics();
 	
-	public JSONArray oneDay (String name1, String name2, String name3, String value) {
+	public JSONArray oneDay (ArrayList<String> cities, String value) {
 		
 		JSONArray array = new JSONArray();
 		
-		JSONObject city1 = new JSONObject();
-		city1 = statistic.todayAverage(name1);
+		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
+		ArrayList<JSONObject> averageVisibility = new ArrayList<JSONObject>();
+		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
 		
-		JSONObject city2 = new JSONObject();
-		city2 = statistic.todayAverage(name2);
+		Iterator<String> it = cities.iterator();
 		
-		JSONObject city3 = new JSONObject();
-		city3 = statistic.todayAverage(name3);
+		//String name = "";
+		int i = 0;
 		
-		double average1 = city1.getDouble("Visibility Average");
-		double average2 = city2.getDouble("Visibility Average");
-		double average3 = city3.getDouble("Visibility Average");
+		double request1max = 0;
+		double request1min = 100000;
+		double request2max = 0;
+		double request2min = 100000;
+		double request3max = 0;
+		double request3min = 100000;
+		double request4max = 0;
+		double request4min = 100000;
 		
-		double request = 0;
-		String name = "";
-		
-		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
+		while(it.hasNext()) {
+			JSONObject object = new JSONObject();
+			object = statistic.todayAverage(it.next());
+			average.add(object);
+			JSONObject visibilitydata = object.getJSONObject("Visibility Data");
+			averageVisibility.add(visibilitydata);
+			
+			double max_visibility = visibilitydata.getDouble("Max visibility");
+			double min_visibility = visibilitydata.getDouble("Min Visibility");
+			double visibility_average = visibilitydata.getDouble("Visibility average");
+			double visibility_variance = visibilitydata.getDouble("Visibility variance");
+			
+			JSONObject obj = new JSONObject();
+			obj.put("cityName",cities.get(i));
+			obj.put("Visibility",visibilitydata);
+			objects.add(obj);
+			array.put(obj);
+			
+			if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
+				
+					if(max_visibility>=request1max) {
+						request1max = max_visibility;
+						//name += cities.get(i) + " ";
+					}
+					if(min_visibility>=request2max) {
+						request2max = min_visibility;
+						//name += cities.get(i) + " ";
+					}
+					if(visibility_average>=request3max) {
+						request3max = visibility_average;
+						//name += cities.get(i) + " ";
+					}
+					if(visibility_variance>=request4max) {
+						request4max = visibility_variance;
+						//name += cities.get(i) + " ";
+					}
+					i++;
+				
 			}
-			else if (average1 == average2 && average2>average3) {
-				name = name1+" and "+name2;
-				request = average1;
+			else if(value.equals("min") || value.equals("MIN") || value.equals("Min")) {
+				
+				if(max_visibility<=request1min) {
+					request1min = max_visibility;
+					//name += cities.get(i) + " ";
+				}
+				if(min_visibility<=request2min) {
+					request2min = min_visibility;
+					//name += cities.get(i) + " ";
+				}
+				if(visibility_average<=request3min) {
+					request3min = visibility_average;
+					//name += cities.get(i) + " ";
+				}
+				if(visibility_variance<=request4min) {
+					request4min = visibility_variance;
+					//name += cities.get(i) + " ";
+				}
+					i++;
 			}
-			else if (average1 == average3 && average1>average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2>average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1>=average2 && average1>=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2>=average1 && average2>=average3) {
-				request = average2;
-				name = name2;
-			}
-			else {
-				request = average3;
-				name = name3;
-			}
+				
 		}
-		else if (value.equals("min") || value.equals("MIN") || value.equals("Min")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
-			}
-			else if (average1 == average2 && average2<average3) {
-				name = name1+" and "+name2;
-				request = average1;
-			}
-			else if (average1 == average3 && average1<average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2<average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1<=average2 && average1<=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2<=average1 && average2<=average3) {
-				request = average2;
-				name = name2;
-			}
-			else  {
-				request = average3;
-				name = name3;
-			}
-		}
-		else {
-			//ECCEZIONE DA INSERIRE.
-		}
-
-		city1 = new JSONObject();
-		city2 = new JSONObject();
-		city3 = new JSONObject();
-		
-		city1.put("city1", name1);
-		city1.put("visibility_average", average1);
-		
-		city2.put("city2", name2);
-		city2.put("visibility_average", average2);
-		
-		city3.put("city3", name3);
-		city3.put("visibility_average", average3);
 		
 		JSONObject object = new JSONObject();
 		
 		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			object.put("City with max average", name);
-			object.put("max average", request);
+			//object.put("City with max average", name);
+			object.put("max max visibility", request1max);
+			object.put("max min visibility", request2max);
+			object.put("max visibility average", request3max);
+			object.put("max variance average", request4max);
 		}
 		else { 
-			object.put("City with min average", name);
-			object.put("min average", request);
+			//object.put("City with min average", name);
+			object.put("min max visibility", request1min);
+			object.put("min min visibility", request2min);
+			object.put("min visibility average", request3min);
+			object.put("min variance average", request4min);
 		}
 		
-		array.put(city1);
-		array.put(city2);
-		array.put(city3);
+		
 		array.put(object);
 		
 		return array;
+	}
+	
+	public JSONArray fiveDay (ArrayList<String> cities, String value) {
+		
+		JSONArray array = new JSONArray();
+		
+		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
+		ArrayList<JSONObject> averageVisibility = new ArrayList<JSONObject>();
+		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
+		
+		Iterator<String> it = cities.iterator();
+		
+		//String name = "";
+		int i = 0;
+		
+		double request1max = 0;
+		double request1min = 100000;
+		double request2max = 0;
+		double request2min = 100000;
+		double request3max = 0;
+		double request3min = 100000;
+		double request4max = 0;
+		double request4min = 100000;
+		
+		while(it.hasNext()) {
+			JSONObject object = new JSONObject();
+			object = statistic.fiveDayAverage(it.next());
+			average.add(object);
+			JSONObject visibilitydata = object.getJSONObject("Visibility Data");
+			averageVisibility.add(visibilitydata);
+			
+			double max_visibility = visibilitydata.getDouble("Max visibility");
+			double min_visibility = visibilitydata.getDouble("Min Visibility");
+			double visibility_average = visibilitydata.getDouble("Visibility average");
+			double visibility_variance = visibilitydata.getDouble("Visibility variance");
+			
+			JSONObject obj = new JSONObject();
+			obj.put("cityName",cities.get(i));
+			obj.put("Visibility",visibilitydata);
+			objects.add(obj);
+			array.put(obj);
+			
+			if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
+				
+					if(max_visibility>=request1max) {
+						request1max = max_visibility;
+						//name += cities.get(i) + " ";
+					}
+					if(min_visibility>=request2max) {
+						request2max = min_visibility;
+						//name += cities.get(i) + " ";
+					}
+					if(visibility_average>=request3max) {
+						request3max = visibility_average;
+						//name += cities.get(i) + " ";
+					}
+					if(visibility_variance>=request4max) {
+						request4max = visibility_variance;
+						//name += cities.get(i) + " ";
+					}
+					i++;
+				
+			}
+			else if(value.equals("min") || value.equals("MIN") || value.equals("Min")) {
+				
+				if(max_visibility<=request1min) {
+					request1min = max_visibility;
+					//name += cities.get(i) + " ";
+				}
+				if(min_visibility<=request2min) {
+					request2min = min_visibility;
+					//name += cities.get(i) + " ";
+				}
+				if(visibility_average<=request3min) {
+					request3min = visibility_average;
+					//name += cities.get(i) + " ";
+				}
+				if(visibility_variance<=request4min) {
+					request4min = visibility_variance;
+					//name += cities.get(i) + " ";
+				}
+					i++;
+			}
+				
+		}
+		
+		JSONObject object = new JSONObject();
+		
+		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
+			//object.put("City with max average", name);
+			object.put("max max visibility", request1max);
+			object.put("max min visibility", request2max);
+			object.put("max visibility average", request3max);
+			object.put("max variance average", request4max);
+		}
+		else { 
+			//object.put("City with min average", name);
+			object.put("min max visibility", request1min);
+			object.put("min min visibility", request2min);
+			object.put("min visibility average", request3min);
+			object.put("min variance average", request4min);
+		}
+		
+		
+		array.put(object);
+		
+		
+		
+		
+		return array;
+		
 		
 	}
 	
-	public JSONArray fiveDay(String name1, String name2, String name3, String value) {
-		JSONArray array = new JSONArray ();
-		
-		JSONObject city1 = new JSONObject();
-		city1 = statistic.fiveDayAverage(name1);
-		
-		JSONObject city2 = new JSONObject();
-		city2 = statistic.fiveDayAverage(name2);
-		
-		JSONObject city3 = new JSONObject();
-		city3 = statistic.fiveDayAverage(name3);
-		
-		double average1 = city1.getDouble("Visibility Average");
-		double average2 = city2.getDouble("Visibility Average");
-		double average3 = city3.getDouble("Visibility Average");
-		
-		double request = 0;
-		String name = "";
-		
-		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
-			}
-			else if (average1 == average2 && average2>average3) {
-				name = name1+" and "+name2;
-				request = average1;
-			}
-			else if (average1 == average3 && average1>average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2>average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1>=average2 && average1>=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2>=average1 && average2>=average3) {
-				request = average2;
-				name = name2;
-			}
-			else {
-				request = average3;
-				name = name3;
-			}
-		}
-		else if (value.equals("min") || value.equals("MIN") || value.equals("Min")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
-			}
-			else if (average1 == average2 && average2<average3) {
-				name = name1+" and "+name2;
-				request = average1;
-			}
-			else if (average1 == average3 && average1<average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2<average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1<=average2 && average1<=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2<=average1 && average2<=average3) {
-				request = average2;
-				name = name2;
-			}
-			else  {
-				request = average3;
-				name = name3;
-			}
-		}
-		else {
-			//ECCEZIONE DA INSERIRE.
-		}
-		
-		
-		city1 = new JSONObject();
-		city2 = new JSONObject();
-		city3 = new JSONObject();
-		
-		city1.put("city1", name1);
-		city1.put("visibility_average", average1);
-		
-		city2.put("city2", name2);
-		city2.put("visibility_average", average2);
-		
-		city3.put("city3", name3);
-		city3.put("visibility_average", average3);
-		
-		JSONObject object = new JSONObject();
-		
-		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			object.put("City with max average", name);
-			object.put("max average", request);
-		}
-		else { 
-			object.put("City with min average", name);
-			object.put("min average", request);
-		}
-		
-		array.put(city1);
-		array.put(city2);
-		array.put(city3);
-		array.put(object);
-		
-		return array;
-	}
 	
 }
