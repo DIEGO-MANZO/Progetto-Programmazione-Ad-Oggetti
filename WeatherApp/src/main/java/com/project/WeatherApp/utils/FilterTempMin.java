@@ -1,5 +1,9 @@
 package com.project.WeatherApp.utils;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,236 +11,139 @@ public class FilterTempMin implements FilterStats {
 	
 	Statistics statistic = new Statistics();
 	
-	public JSONArray oneDay (String name1, String name2, String name3, String value) {
+	public JSONArray oneDay (ArrayList<String> cities, String value) {
 		
 		JSONArray array = new JSONArray();
 		
-		JSONObject city1 = new JSONObject();
-		city1 = statistic.todayAverage(name1);
+		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
+		ArrayList<Double> averageTempMin = new ArrayList<Double>();
+		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
 		
-		JSONObject city2 = new JSONObject();
-		city2 = statistic.todayAverage(name2);
+		Iterator<String> it = cities.iterator();
 		
-		JSONObject city3 = new JSONObject();
-		city3 = statistic.todayAverage(name3);
+		double request1 = 0;
+		double request2 = 1000;
+		//String name = "";
+		int i = 0;
 		
-		double average1 = city1.getDouble("Temp_Min Average");
-		double average2 = city2.getDouble("Temp_Min Average");
-		double average3 = city3.getDouble("Temp_Min Average");
-		
-		double request = 0;
-		String name = "";
-		
-		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
+		while(it.hasNext()) {
+			JSONObject object = new JSONObject();
+			object = statistic.todayAverage(it.next());
+			average.add(object);
+			double ave = object.getDouble("Temp_Min Average");
+			averageTempMin.add(ave);
+			
+			JSONObject obj = new JSONObject();
+			obj.put("cityName:",cities.get(i));
+			obj.put("temp_min_average:",ave);
+			objects.add(obj);
+			array.put(obj);
+			
+			if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
+				
+					if(ave>=request1) {
+						request1 = ave;
+						//name += cities.get(i) + " ";
+					}
+					i++;
+				
 			}
-			else if (average1 == average2 && average2>average3) {
-				name = name1+" and "+name2;
-				request = average1;
+			else if(value.equals("min") || value.equals("MIN") || value.equals("Min")) {
+				
+					if(ave<=request2) {
+						request2 = ave;
+						//name += cities.get(i) + " ";
+					}
+					i++;
 			}
-			else if (average1 == average3 && average1>average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2>average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1>=average2 && average1>=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2>=average1 && average2>=average3) {
-				request = average2;
-				name = name2;
-			}
-			else {
-				request = average3;
-				name = name3;
-			}
+				
 		}
-		else if (value.equals("min") || value.equals("MIN") || value.equals("Min")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
-			}
-			else if (average1 == average2 && average2<average3) {
-				name = name1+" and "+name2;
-				request = average1;
-			}
-			else if (average1 == average3 && average1<average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2<average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1<=average2 && average1<=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2<=average1 && average2<=average3) {
-				request = average2;
-				name = name2;
-			}
-			else  {
-				request = average3;
-				name = name3;
-			}
-		}
-		else {
-			//ECCEZIONE DA INSERIRE.
-		}
-
-		city1 = new JSONObject();
-		city2 = new JSONObject();
-		city3 = new JSONObject();
-		
-		city1.put("city1", name1);
-		city1.put("temp_min_average", average1);
-		
-		city2.put("city2", name2);
-		city2.put("temp_min_average", average2);
-		
-		city3.put("city3", name3);
-		city3.put("temp_min_average", average3);
 		
 		JSONObject object = new JSONObject();
 		
 		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			object.put("City with max average", name);
-			object.put("max average", request);
+			//object.put("City with max average", name);
+			object.put("max average", request1);
 		}
 		else { 
-			object.put("City with min average", name);
-			object.put("min average", request);
+			//object.put("City with min average", name);
+			object.put("min average", request2);
 		}
 		
-		array.put(city1);
-		array.put(city2);
-		array.put(city3);
+		
 		array.put(object);
+	
 		
 		return array;
 		
 	}
 	
-	public JSONArray fiveDay(String name1, String name2, String name3, String value) {
-		JSONArray array = new JSONArray ();
+	
+	public JSONArray fiveDay (ArrayList<String> cities, String value) {
 		
-		JSONObject city1 = new JSONObject();
-		city1 = statistic.fiveDayAverage(name1);
+		JSONArray array = new JSONArray();
 		
-		JSONObject city2 = new JSONObject();
-		city2 = statistic.fiveDayAverage(name2);
+		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
+		ArrayList<Double> averageTempMin = new ArrayList<Double>();
+		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
 		
-		JSONObject city3 = new JSONObject();
-		city3 = statistic.fiveDayAverage(name3);
+		Iterator<String> it = cities.iterator();
 		
-		double average1 = city1.getDouble("Temp_Min Average");
-		double average2 = city2.getDouble("Temp_Min Average");
-		double average3 = city3.getDouble("Temp_Min Average");
+		double request1 = 0;
+		double request2 = 1000;
+		//String name = "";
+		int i = 0;
 		
-		double request = 0;
-		String name = "";
-		
-		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
+		while(it.hasNext()) {
+			JSONObject object = new JSONObject();
+			object = statistic.fiveDayAverage(it.next());
+			average.add(object);
+			double ave = object.getDouble("Temp_Min Average");
+			averageTempMin.add(ave);
+			
+			JSONObject obj = new JSONObject();
+			obj.put("cityName:",cities.get(i));
+			obj.put("temp_min_average:",ave);
+			objects.add(obj);
+			array.put(obj);
+			
+			if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
+				
+					if(ave>=request1) {
+						request1 = ave;
+						//name += cities.get(i) + " ";
+					}
+					i++;
+				
 			}
-			else if (average1 == average2 && average2>average3) {
-				name = name1+" and "+name2;
-				request = average1;
+			else if(value.equals("min") || value.equals("MIN") || value.equals("Min")) {
+				
+					if(ave<=request2) {
+						request2 = ave;
+						//name += cities.get(i) + " ";
+					}
+					i++;
 			}
-			else if (average1 == average3 && average1>average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2>average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1>=average2 && average1>=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2>=average1 && average2>=average3) {
-				request = average2;
-				name = name2;
-			}
-			else {
-				request = average3;
-				name = name3;
-			}
+				
 		}
-		else if (value.equals("min") || value.equals("MIN") || value.equals("Min")) {
-			if (average1==average2 && average2 == average3) {
-				name = name1+", "+name2+" and "+name3;
-				request = average1;
-			}
-			else if (average1 == average2 && average2<average3) {
-				name = name1+" and "+name2;
-				request = average1;
-			}
-			else if (average1 == average3 && average1<average2) {
-				name = name1+" and "+name3;
-				request = average1;
-			}
-			else if (average2==average3 && average2<average1) {
-				name = name2+" and "+name3;
-				request = average2;
-			}
-			else if (average1<=average2 && average1<=average3) {
-				request = average1;
-				name = name1;
-			}
-			else if (average2<=average1 && average2<=average3) {
-				request = average2;
-				name = name2;
-			}
-			else  {
-				request = average3;
-				name = name3;
-			}
-		}
-		else {
-			//ECCEZIONE DA INSERIRE.
-		}
-
-		city1 = new JSONObject();
-		city2 = new JSONObject();
-		city3 = new JSONObject();
-		
-		city1.put("city1", name1);
-		city1.put("temp_min_average", average1);
-		
-		city2.put("city2", name2);
-		city2.put("temp_min_average", average2);
-		
-		city3.put("city3", name3);
-		city3.put("temp_min_average", average3);
 		
 		JSONObject object = new JSONObject();
 		
 		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			object.put("City with max average", name);
-			object.put("max average", request);
+			//object.put("City with max average", name);
+			object.put("max average", request1);
 		}
 		else { 
-			object.put("City with min average", name);
-			object.put("min average", request);
+			//object.put("City with min average", name);
+			object.put("min average", request2);
 		}
 		
-		array.put(city1);
-		array.put(city2);
-		array.put(city3);
+		
 		array.put(object);
 		
 		return array;
+		
+		
 	}
 	
 }

@@ -130,8 +130,6 @@ public City getCityWeatherRistrictfromApi(String name) {
 		
 		city.setVector(vector);
 		
-		System.out.println(vector);
-		
 		return city;
 		
 	}
@@ -263,7 +261,6 @@ public City getCityWeatherRistrictfromApi(String name) {
 			    br.close();
 			}
 				
-			System.out.println(everything);
 		
 			JSONArray array = new JSONArray(everything);
 	
