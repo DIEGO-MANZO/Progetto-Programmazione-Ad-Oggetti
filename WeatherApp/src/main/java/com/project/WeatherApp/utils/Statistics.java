@@ -5,18 +5,19 @@ import org.json.JSONObject;
 
 
 import com.project.WeatherApp.model.City;
+import com.project.WeatherApp.service.Service;
 import com.project.WeatherApp.service.ServiceImpl;
 
 
-public class Statistics extends ServiceImpl {
+public class Statistics {
 	
-	//ServiceImpl service = new ServiceImpl();
+	ServiceImpl service = new ServiceImpl();
 
     public JSONObject todayAverage(String name) {
          
         
         City city = new City(name);
-        city = getCityWeatherRistrictfromApi(name);
+        city = service.getCityWeatherRistrictfromApi(name);
         
         double temp_max_ave = 0;
         double temp_min_ave = 0;
@@ -63,7 +64,7 @@ public class Statistics extends ServiceImpl {
          
         
         City city = new City(name);
-        city = getCityWeatherRistrictfromApi(name);
+        city = service.getCityWeatherRistrictfromApi(name);
         
         double temp_max_ave = 0;
         double temp_min_ave = 0;
@@ -98,6 +99,6 @@ public class Statistics extends ServiceImpl {
         return object;
         
     }
-	
+    
 
 }

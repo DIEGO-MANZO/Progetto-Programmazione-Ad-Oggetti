@@ -13,12 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.service.Service;
+import com.project.WeatherApp.utils.FilterTempMax;
 import com.project.WeatherApp.utils.Statistics;
+import com.project.WeatherApp.utils.Filter;
+
 import com.project.WeatherApp.service.ToJSON;
 
 
@@ -104,10 +109,26 @@ public class Controller {
 	}
 	
 	@PostMapping("/filter")
-    public ResponseEntity<Object> filter(@RequestBody JSONObject object) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Object> filter(@RequestBody String request) {
+		
+		JSONObject object = new JSONObject(request);
+		JSONArray array = new JSONArray();
+		
+		String city1 = (String) object.get("city1");
+		String city2 = (String) object.get("city2");
+		String city3 = (String) object.get("city3");
+		String param = (String) object.get("param");
+		String value = (String) object.get("value");
+		int period = (int) object.get("period");
+		
+		Filter filter;
+		filter = new Filter(city1,city2,city3,param,value,period);
+		
+		array = filter.analyze();
+		
+        return new ResponseEntity<>(array.toString(),HttpStatus.OK);
+        
     }
-	
 	
 	
 }
