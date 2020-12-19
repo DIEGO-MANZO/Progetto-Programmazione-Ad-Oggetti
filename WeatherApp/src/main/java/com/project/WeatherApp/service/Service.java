@@ -3,6 +3,7 @@
  */
 package com.project.WeatherApp.service;
 
+import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.model.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -26,6 +27,6 @@ public interface Service {
 	public abstract String save(String city) throws IOException;
 	public String saveEveryHour(String cityName);
 	public abstract JSONArray readHistory(String name1, String name2, String name3) throws IOException;
-	public abstract ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException;
+	public abstract ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException;
 	
 }

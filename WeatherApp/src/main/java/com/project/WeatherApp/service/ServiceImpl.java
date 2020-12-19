@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.stereotype.Service;
 
+import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.utils.Statistics;
 
@@ -61,7 +62,6 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		RestTemplate rt = new RestTemplate();
 		
 		obj = new JSONObject(rt.getForObject(url, String.class));
-		
 		
 		return obj;
 		
@@ -144,6 +144,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			}
 	
 		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		
 		
@@ -240,7 +241,9 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		    @Override
 		    public void run() {
 		    	
-		    	City city = getCityWeatherRistrictfromApi(cityName);        
+		    	City city = new City();
+				city = getCityWeatherRistrictfromApi(cityName);
+				
 		        
 				JSONObject obj = new JSONObject();
 				ToJSON tojson = new ToJSON();
@@ -309,7 +312,13 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	 * @param ArrayList di stringhe dei nomi delle città, la soglia di errore di cui si vuole sapere se le città abbiano una
 	 * soglia minore, maggiore o uguale (a seconda che value sia "$lt" o "$gt" o "=". 
 	 */
-	public ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException {
+	public ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException {
+		
+			for(int i=0; i<cities.size(); i++) {
+				if(!(cities.get(i).equals("Ancona") || cities.get(i).equals("Campobasso") || cities.get(i).equals("Macerata") || cities.get(i).equals("Roma") || cities.get(i).equals("San Martino in Pensilis") || cities.get(i).equals("Tolentino")))
+					throw new CityNotFoundException ("Città non trovata nello storico");
+			}
+		
 		
 			Iterator<String> it = cities.iterator();
 			
