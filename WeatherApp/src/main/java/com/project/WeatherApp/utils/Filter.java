@@ -3,6 +3,13 @@ package com.project.WeatherApp.utils;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.project.WeatherApp.exception.CityNotFoundException;
+import com.project.WeatherApp.exception.WrongParamException;
+import com.project.WeatherApp.exception.WrongPeriodException;
+import com.project.WeatherApp.exception.WrongValueException;
 
 /** Questa classe contiene i metodi necessari al filtraggio.
  *  @author Federica Parlapiano
@@ -35,9 +42,12 @@ public class Filter {
 	/**
 	 * Questo metodo filtra il periodo e il parametro. Richiama altri metodi per filtrare il value.
 	 * @return JSONArray contenente le città filtrate e le statistiche ottenute.
+	 * @throws WrongPeriodException se il numero inserito non è 1 o 5.
+	 * @throws WrongValueException se è stato inserita una stringa errata per value.
+	 * @throws WrongParamException se è stato inserita una stringa errata per param.
 	 */
 	
-	public JSONArray analyze() {
+	public JSONArray analyze() throws WrongPeriodException, WrongValueException, WrongParamException {
 		
 		JSONArray array = new JSONArray ();
 		
@@ -58,6 +68,7 @@ public class Filter {
 				FilterVisibility filter = new FilterVisibility();
 				array = filter.oneDay(cities, value);
 			}
+			else  throw new WrongParamException (param+ " non è una stringa ammessa.Inserisci una stringa tra temp_min,temp_max,feels_like e visibility");   
 						
 		}
 		
@@ -78,9 +89,10 @@ public class Filter {
 				FilterVisibility filter = new FilterVisibility();
 				array = filter.fiveDay(cities, value);
 			}
+			else  throw new WrongParamException (param+ " non è una stringa ammessa.Inserisci una stringa tra temp_min,temp_max,feels_like e visibility");
 						
 		}
-		
+		else  throw new WrongPeriodException (period+ " non è un numero ammesso. Inserisci un numero che sia o 1 o 5.");
 		
 		return array;
 	}

@@ -6,6 +6,9 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.project.WeatherApp.exception.CityNotFoundException;
+import com.project.WeatherApp.exception.WrongValueException;
+
 
 /**
  * Questa classe implementa FilterStats e contiene i metodi per il filtraggio rispetto alla temperatura percepita.
@@ -25,9 +28,10 @@ public class FilterFeelsLike implements FilterStats {
 	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
 	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
 	 * @return JSONArray come descritto sopra. 
+	 * @throws WrongValueException se viene inserita una stringa non ammessa.
 	 */
 	
-	public JSONArray oneDay (ArrayList<String> cities, String value) {
+	public JSONArray oneDay (ArrayList<String> cities, String value) throws WrongValueException {
 		
 		JSONArray array = new JSONArray();
 		
@@ -72,6 +76,7 @@ public class FilterFeelsLike implements FilterStats {
 					}
 					i++;
 			}
+			else throw new WrongValueException (value+" è una stringa errata! Devi inserire una stringa tra max/MAX/Max oppure min/MIN/Min");
 				
 		}
 		
@@ -101,9 +106,10 @@ public class FilterFeelsLike implements FilterStats {
 	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
 	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
 	 * @return JSONArray come descritto sopra. 
+	 * @throws WrongValueException se viene inserita una stringa errata.
 	 */
 	
-	public JSONArray fiveDay (ArrayList<String> cities, String value) {
+	public JSONArray fiveDay (ArrayList<String> cities, String value) throws WrongValueException {
 		JSONArray array = new JSONArray();
 		
 		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
@@ -147,6 +153,7 @@ public class FilterFeelsLike implements FilterStats {
 					}
 					i++;
 			}
+			else throw new WrongValueException (value+" è una stringa errata! Devi inserire una stringa tra max/MAX/Max oppure min/MIN/Min");
 				
 		}
 		
