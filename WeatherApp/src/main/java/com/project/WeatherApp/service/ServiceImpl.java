@@ -27,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.stereotype.Service;
 
 import com.project.WeatherApp.model.*;
+import com.project.WeatherApp.utils.Statistics;
 
 
 /**
@@ -87,7 +88,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	}
 	
 	
-public City getCityWeatherRistrictfromApi(String name) {
+	public City getCityWeatherRistrictfromApi(String name) {
 		
 		JSONObject object = getCityWeather(name);
 		
@@ -161,6 +162,7 @@ public City getCityWeatherRistrictfromApi(String name) {
 	}
 	
 	
+	
 	public String save(String cityName) throws IOException {
         
 		City city = getCityWeatherRistrictfromApi(cityName);        
@@ -190,7 +192,7 @@ public City getCityWeatherRistrictfromApi(String name) {
 			System.err.println("Error: " + e);
 		}
         
-		return nomeFile;
+		return path;
         
 	}
 	
@@ -240,7 +242,7 @@ public City getCityWeatherRistrictfromApi(String name) {
 	
 	public JSONArray readHistory(String name1, String name2, String name3) throws IOException {
 		
-		String path = "C:/Users/feder/eclipse-workspace/HourlyReport.txt";
+		String path = "C:/Users/feder/eclipse-workspace/History";
 		
 			
 			//Scanner file_output = new Scanner(new BufferedReader(new FileReader(path)));
@@ -267,6 +269,75 @@ public City getCityWeatherRistrictfromApi(String name) {
 			return array;
 			
 	}
+	
+	
+	public JSONArray readHistory2(ArrayList<String> cities) throws IOException {
+		
+			Iterator<String> it = cities.iterator();
+			
+			ArrayList<JSONArray> visibilityArray = new ArrayList<JSONArray>();
+			
+			while(it.hasNext()) {
+						
+				String path = "C:/Users/feder/eclipse-workspace/History/"+it.next()+".txt";
+				
+				String everything;
+				
+				BufferedReader br = new BufferedReader(new FileReader(path));
+				try {
+				    StringBuilder sb = new StringBuilder();
+				    String line = br.readLine();
+
+				    while (line != null) {
+				        sb.append(line);
+				        sb.append(System.lineSeparator());
+				        line = br.readLine();
+				    }
+				    everything = sb.toString();
+				} finally {
+				    br.close();
+				}
+			
+				JSONArray array = new JSONArray(everything);
+				JSONArray visibilityInfo = new JSONArray();
+				
+				for(int i=0; i<array.length(); i++) {
+					
+					
+					JSONObject weather = new JSONObject();
+					weather = array.getJSONObject(i);
+					
+					JSONArray arr = new JSONArray();
+					arr = weather.getJSONArray("Weather");
+					
+					
+					for(int j=0; j<arr.length();j++) {
+						
+						JSONObject visibility = new JSONObject();
+						JSONObject all = new JSONObject();
+						all = arr.getJSONObject(j);
+						
+						visibility.put("visibility", all.get("visibility"));
+						visibility.put("data", all.get("data"));
+						visibilityInfo.put(visibility);
+						
+					}
+					
+				}
+
+				visibilityArray.add(visibilityInfo);
+				
+			}
+			
+			Statistics non = new Statistics();
+			non.errorThreshold(cities, visibilityArray, 1);
+			
+			JSONArray arr = new JSONArray();
+			return arr;
+			
+	}
+	
+	
 	
     
 	
