@@ -1,5 +1,5 @@
 /**
- * Questo package serve per permettere al client di fare chiamate attraverso il Server
+ * Questo package serve per permettere al client di fare chiamate attraverso il Server.
  */
 /**
  * @author Federica

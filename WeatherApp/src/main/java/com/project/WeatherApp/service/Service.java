@@ -11,6 +11,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author Federica
@@ -24,5 +25,6 @@ public interface Service {
 	public abstract String save(String city) throws IOException;
 	public String saveEveryHour(String cityName);
 	public abstract JSONArray readHistory(String name1, String name2, String name3) throws IOException;
+	public abstract JSONArray readHistory2(ArrayList<String> cities) throws IOException;
 	//public abstract JSONArray statsHistory(String name1) throws IOException, ParseException;
 }
