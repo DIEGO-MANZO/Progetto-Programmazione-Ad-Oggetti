@@ -235,7 +235,7 @@ public class Controller {
 		
         Filter filter;
 		filter = new Filter(cities,param,value,period);
-		array = filter.analyze2();
+		array = filter.analyze();
         
 		return new ResponseEntity<>(array.toString(),HttpStatus.OK);
 		
@@ -292,17 +292,14 @@ public class Controller {
             cities.add(obj.getString("name"));
         }
         
-        String param = object.getString("param");
-        String error = object.getString("error");
-        String period = object.getString("period");
+        int error = object.getInt("error");
+        String value = object.getString("value");
+        int period = object.getInt("period");
 		
-        service.readHistory2(cities);
-		
-		return new ResponseEntity<>(array.toString(),HttpStatus.OK);
+		return new ResponseEntity<>(service.readHistory2(cities,error,value,period).toString(),HttpStatus.OK);
 		
 	}
-	
-	
+
 	
 	
 	

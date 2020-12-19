@@ -6,9 +6,26 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Questa classe implementa FilterStats e contiene i metodi per il filtraggio rispetto alla visibilità.
+ * @author Federica Parlapiano
+ * @author Francesca Palazzetti 
+ */
+
 public class FilterVisibility implements FilterStats{
 	
 	Statistics statistic = new Statistics();
+	
+	/**
+	 * Questo metodo calcola la media, la varianza, la massima e la minima visibilità di un giorno delle città passate 
+	 * in ingresso e filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e 
+	 * le relative statistiche sulla visibilità. 
+	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di visibilità
+	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
+	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
+	 * @return JSONArray come descritto sopra. 
+	 * 
+	 */
 	
 	public JSONArray oneDay (ArrayList<String> cities, String value) {
 		
@@ -116,6 +133,18 @@ public class FilterVisibility implements FilterStats{
 		
 		return array;
 	}
+	
+	
+	/**
+	 * Questo metodo calcola la media, la varianza, la massima e la minima visibilità su cinque giorni delle città passate 
+	 * in ingresso e filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e 
+	 * le relative statistiche sulla visibilità. 
+	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di visibilità
+	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
+	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
+	 * @return JSONArray come descritto sopra. 
+	 * 
+	 */
 	
 	public JSONArray fiveDay (ArrayList<String> cities, String value) {
 		

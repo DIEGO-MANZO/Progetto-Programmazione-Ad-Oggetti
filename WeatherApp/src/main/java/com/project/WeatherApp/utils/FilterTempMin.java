@@ -1,15 +1,30 @@
 package com.project.WeatherApp.utils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Questa classe implementa FilterStats e contiene i metodi per il filtraggio rispetto alla temperatura minima.
+ * @author Federica Parlapiano
+ * @author Francesca Palazzetti 
+ */
+
 public class FilterTempMin implements FilterStats {
 	
 	Statistics statistic = new Statistics();
+	
+	/**
+	 * Questo metodo calcola la media della temperatura minima di un giorno delle città passate in ingresso e
+	 * filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e le relative 
+	 * temperature minime. 
+	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di temperatura minima.
+	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
+	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
+	 * @return JSONArray come descritto sopra. 
+	 */
 	
 	public JSONArray oneDay (ArrayList<String> cities, String value) {
 		
@@ -78,6 +93,16 @@ public class FilterTempMin implements FilterStats {
 		
 	}
 	
+	
+	/**
+	 * Questo metodo calcola la media della temperatura minima su cinque giorni  delle città passate in ingresso e
+	 * filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e le relative 
+	 * temperature minime. 
+	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di temperatura minime.
+	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
+	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
+	 * @return JSONArray come descritto sopra. 
+	 */
 	
 	public JSONArray fiveDay (ArrayList<String> cities, String value) {
 		
