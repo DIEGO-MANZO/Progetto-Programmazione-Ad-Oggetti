@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
+import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.model.City;
 import com.project.WeatherApp.service.ServiceImpl;
 import com.project.WeatherApp.utils.error.ErrorFiveDays;
