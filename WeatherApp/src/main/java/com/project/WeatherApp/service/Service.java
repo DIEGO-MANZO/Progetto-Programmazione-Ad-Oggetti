@@ -13,11 +13,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * @author Federica
- * @author Francesca
+/** Questa classe è l'interfaccia di ServiceImpl e contiene i metodi richiamati dal Controller.
+ * @author Federica Parlapiano
+ * @author Francesca Palazzetti 
  */
 public interface Service {
+	
 	public abstract JSONObject getCityWeather(String city);
 	public abstract City getCityInfofromApi(String city);
 	public abstract JSONArray getVisibilityfromApi(String city);
@@ -25,6 +26,6 @@ public interface Service {
 	public abstract String save(String city) throws IOException;
 	public String saveEveryHour(String cityName);
 	public abstract JSONArray readHistory(String name1, String name2, String name3) throws IOException;
-	public abstract JSONArray readHistory2(ArrayList<String> cities) throws IOException;
-	//public abstract JSONArray statsHistory(String name1) throws IOException, ParseException;
+	public abstract ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException;
+	
 }

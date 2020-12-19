@@ -4,10 +4,21 @@ import com.project.WeatherApp.model.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+
+/** Questa classe contiene il metodo per il parsing di un oggetto City.
+ *  @author Federica Parlapiano
+ * @author Francesca Palazzetti 
+ */
 public class ToJSON {
 	
 	City city = new City();
 	
+	
+	/**
+	 * Questo metodo restituisce il JSONObject corrispondente all'oggetto City passato in ingresso.
+	 * @param city città che si vuole come un JSONObject.
+	 * @return il JSONObject che rappresenta la città.
+	 */
 	public JSONObject parser(City city) {
 		
 		
