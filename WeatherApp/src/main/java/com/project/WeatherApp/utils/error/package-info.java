@@ -6,4 +6,4 @@
  * @author Francesca
  */
 
-package com.project.WeatherApp.utils;
+package com.project.WeatherApp.utils.error;

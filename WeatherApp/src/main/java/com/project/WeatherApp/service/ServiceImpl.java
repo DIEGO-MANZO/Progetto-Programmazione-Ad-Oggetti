@@ -30,19 +30,29 @@ import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.utils.Statistics;
 
 
-/**
- * @author Federica
- * @author Francesca
+
+/** Questa classe è l'implementazione dell'interfaccia Service.
+ * Contiene i metodi che vengono utilizzati dal controller.
+ * @author Federica Parlapiano
+ * @author Francesca Palazzetti 
  */
 
 @Service
 
 public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	
+	
+	/**
+	 * api_key è la key necessaria per ottenere informazioni da OpenWeather.
+	 */
 	private String api_key = "666efac3e1caf3f728f8c5860edeb469";
 	
 	
-	//va a prendere le previsioni meteo di una città
+	/**
+	 * Questo metodo va a prendere da OpenWeather le previsioni meteo di una città.
+	 * @param è il nome della città di cui si vuole conoscere le previsioni meteo.
+	 * @return un JSONObject contenente le previsioni meteo complete.
+	 */
 	public JSONObject getCityWeather(String city) {
 		
 		JSONObject obj;
@@ -56,9 +66,11 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		return obj;
 		
 	}
-	
-	
-	
+	/**
+	 * Questo metodo utilizza getCityWeather per andare prendere le previsioni sulla visibilità della città richiesta.
+	 * @param è il nome della città di cui si vuole conoscere la visibilità.
+	 * @return restituisce il JSONArray contente la visibilità con la relativa data e ora.
+	 */
 
 	public JSONArray getVisibilityfromApi(String name) {
 	
@@ -88,6 +100,12 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	}
 	
 	
+	/**
+	 * Questo metodo utilizza getCityWeather per andare a selezionare le previsioni meteo ristrette (temperatura
+	 * massima, minima, percepita e visibilità).
+	 * @param name è il nome della città di cui si vogliono conoscere le previsioni ristrette.
+	 * @return un oggetto di tipo City che contiene tutte le informazioni richieste e anche le informazioni sulla città.
+	 */
 	public City getCityWeatherRistrictfromApi(String name) {
 		
 		JSONObject object = getCityWeather(name);
@@ -135,7 +153,12 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 	}
 	
-	
+	/**
+	 * Questo metodo serve per ottenere le informazioni sulla città da OpenWeather. Viene richiamato da
+	 * getCityWeatherRistrictfromApi(String name).
+	 * @param nome della città.
+	 * @return un oggetto di tipo città popolato delle informazioni sulla città.
+	 */
 	public City getCityInfofromApi(String name) {
 		
 		JSONObject object = getCityWeather(name);
@@ -162,7 +185,12 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	}
 	
 	
-	
+	/**
+	 * Questo metodo richiama getCityWeatherRistrictfromApi(String name) e serve per salvare le previsioni meteo per 
+	 * i prossimi cinque giorni della città passata come parametro.
+	 * @param è il nome della città
+	 * @return una stringa contenente il path del file salvato.
+	 */
 	public String save(String cityName) throws IOException {
         
 		City city = getCityWeatherRistrictfromApi(cityName);        
@@ -196,7 +224,11 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
         
 	}
 	
-	
+	/**
+	 * Questo metodo richiama getCityWeatherRistrictfromApi(String name) e serve per salvare le previsioni meteo ogni ora.
+	 * @param è il nome della città
+	 * @return una stringa contenente il path del file salvato.
+	 */
 	public String saveEveryHour(String cityName) {
 		
 		String path = "C:/Users/feder/eclipse-workspace/HourlyReport.txt";
@@ -240,6 +272,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 	}
 	
+	
 	public JSONArray readHistory(String name1, String name2, String name3) throws IOException {
 		
 		String path = "C:/Users/feder/eclipse-workspace/History";
@@ -270,12 +303,18 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			
 	}
 	
-	
-	public JSONArray readHistory2(ArrayList<String> cities) throws IOException {
+	/**
+	 * Questo metodo serve per leggere lo storico di ogni città passata in ingresso e richiama altri metodi che 
+	 * servono per fare statistiche e filtri.
+	 * @param ArrayList di stringhe dei nomi delle città, la soglia di errore di cui si vuole sapere se le città abbiano una
+	 * soglia minore, maggiore o uguale (a seconda che value sia "$lt" o "$gt" o "=". 
+	 */
+	public ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException {
 		
 			Iterator<String> it = cities.iterator();
 			
 			ArrayList<JSONArray> visibilityArray = new ArrayList<JSONArray>();
+			ArrayList<JSONObject> errors = new ArrayList<JSONObject>();
 			
 			while(it.hasNext()) {
 						
@@ -330,11 +369,10 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			}
 			
 			Statistics non = new Statistics();
-			non.errorThreshold(cities, visibilityArray, 1);
+			errors = non.errorThreshold(cities, visibilityArray,error,value,period);
 			
-			JSONArray arr = new JSONArray();
-			return arr;
 			
+			return errors;
 	}
 	
 	
