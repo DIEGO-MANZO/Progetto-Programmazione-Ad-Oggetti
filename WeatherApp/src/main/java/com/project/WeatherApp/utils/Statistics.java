@@ -1,6 +1,10 @@
 package com.project.WeatherApp.utils;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -150,6 +154,95 @@ public class Statistics {
         return object;
         
     }
+    
+    
+    public JSONObject errorThreshold(ArrayList<String> cities,ArrayList<JSONArray> visibilityInfo,int period) {
+    	
+    	ArrayList<JSONObject> errors = new ArrayList<JSONObject>();
+    	
+    	if(period==1) {
+    		int i=0;
+    		
+    		while(i<visibilityInfo.size()) {
+    			
+    			JSONArray visibility = new JSONArray();
+    			visibility = visibilityInfo.get(i);
+    			
+    			JSONObject visibilityall = visibility.getJSONObject(0);
+    			String data = visibilityall.getString("data");
+    			
+    			String firstday = "";
+                firstday += data.charAt(8);
+                firstday += data.charAt(9);
+                
+                boolean equals = true;
+                int j=1;
+                while(equals && j<visibility.length()) {
+                	JSONObject appoggio = new JSONObject();
+                	appoggio = visibility.getJSONObject(j);
+                	String comparedate = appoggio.getString("data");
+                	String day = "";
+                	day += comparedate.charAt(8);
+                    day += comparedate.charAt(9);
+                    if (firstday.equals(day))
+                    	equals = true;
+                    else equals = false;
+                    j++;
+                }
+    			
+                /*
+                JSONObject newest = new JSONObject();
+                newest = visibility.getJSONObject(j-1);
+                String alldate = newest.getString("data");
+                int bility = newest.getInt("visibility");
+                */
+                
+                int errore = 0;
+                int errortot = 0;
+                System.out.println(errore);
+                
+                int k=j-1;
+                while(k<j+7) {
+                	JSONObject newest = new JSONObject();
+                    newest = visibility.getJSONObject(k);
+                    String alldate = newest.getString("data");
+                    int bility = newest.getInt("visibility");
+                    System.out.println(bility);
+                    
+                	for(int h=j; h<visibility.length();h++) {
+                		JSONObject ob = new JSONObject();
+                		ob = visibility.getJSONObject(h);
+                		String d = ob.getString("data");
+                		if(d.equals(alldate)) {
+            
+                			int visi = ob.getInt("visibility");
+                			errore = Math.abs((visi-bility)/2);
+                			errortot += errore;
+                			
+                		}
+                			
+                	}
+                	k++;
+                }
+                
+                JSONObject city = new JSONObject();
+                city.put("City",  cities.get(i));
+                city.put("error AME", errortot);
+                errors.add(city);
+                i++;
+    			
+    		}
+    		
+    	}
+    	
+    	System.out.println(errors);
+    	
+    	JSONObject obj = new JSONObject();
+    	return obj;
+    	
+    }
+    
+    
     
 
 }

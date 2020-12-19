@@ -1,61 +1,73 @@
-/**
- * 
- */
 package com.project.WeatherApp.model;
 
-import java.io.Serializable;
 
-/**
+/** Classe che rappresenta le coordinate di una città.
  * @author Federica
  * @author Francesca
  */
-public class Coordinates implements Serializable {
+public class Coordinates {
 
 	static final long serialVersionUID = 1;
 	
-	protected double latitude;
-	protected double longitude;
+	private double latitude;
+	private double longitude;
 	
+	
+	/** Costruttore dell'oggetto.
+     * @param latitude           rappresenta la latitudine
+     * @param longitude          rappresenta la longitudine
+     */
 	public Coordinates(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-
+	
+	/**
+     * Metodo che restituisce la latitudine.
+     * @return latitude
+     */
 	public double getLatitude() {
 		return latitude;
 	}
 	
+	/**
+     * Metodo che setta la latitudine della città.
+     * @param double latitude.
+     */
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 	
+	/**
+     * Metodo che restituisce la longitudine
+     * @return longitude
+     */
 	public double getLongitude() {
 		return longitude;
 	}
 	
+	/**
+     * Metodo che setta la longitudine della città.
+     * @param longitude.
+     */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
+	/**
+	 * Override del metodo toString(),
+	 * @return String che rappresenta le coordinate.
+	 */
 	@Override
 	public String toString() {
 		return "[latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
-	
-	/*
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(latitude);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(longitude);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
-	*/
 
+	/**
+	 * Override del metodo equals()
+	 *  @param oggetto da confrontare,
+	 *  @return true se i due oggetti sono uguali, false altrimenti.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
