@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.WeatherApp.exception.CityNotFoundException;
+import com.project.WeatherApp.exception.WrongParamException;
+import com.project.WeatherApp.exception.WrongPeriodException;
+import com.project.WeatherApp.exception.WrongValueException;
 import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.service.Service;
 import com.project.WeatherApp.utils.Statistics;
@@ -52,7 +56,9 @@ public class Controller {
 	
 	@GetMapping(value="/city")
     public ResponseEntity<Object> getCity(@RequestParam String cityName) {
-		return new ResponseEntity<> (service.getCityWeather(cityName).toString(), HttpStatus.OK);
+	
+			return new ResponseEntity<> (service.getCityWeather(cityName).toString(), HttpStatus.OK);
+		
     }
 	
 	/**
@@ -209,10 +215,12 @@ public class Controller {
 	 * @return il JSONArray che contiene tanti JSONObject quante sono le città specificate nella richiesta
 	 *         ognuno dei quali contiene il nome della città e la media del "param" indicato. In più il JSONArray contiene
 	 *         un ultimo JSONObject al cui interno è contenuta la massima o minima media a seconda del valore indicato.
-	 * @throws 
+	 * @throws WrongPeriodException se il numero immesso è errato.
+	 * @throws WrongValueException se viene inserita una stringa errata per value.
+	 * @throws WrongParamException se viene inserita una stringa errata per param.
 	 */
 	@PostMapping("/filters")
-	public ResponseEntity<Object> filters(@RequestBody String body) {
+	public ResponseEntity<Object> filters(@RequestBody String body) throws WrongPeriodException, WrongValueException, WrongParamException {
 		
 		JSONObject object = new JSONObject(body);
         JSONArray array = new JSONArray();
@@ -235,9 +243,20 @@ public class Controller {
 		
         Filter filter;
 		filter = new Filter(cities,param,value,period);
-		array = filter.analyze();
-        
-		return new ResponseEntity<>(array.toString(),HttpStatus.OK);
+		
+		try {
+        	return new ResponseEntity<>(filter.analyze().toString(),HttpStatus.OK);
+        }
+		catch(WrongPeriodException e) {
+	        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+	        }
+		catch(WrongValueException e) {
+        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+        }
+		catch(WrongParamException e) {
+        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+        }
+		
 		
 	}
 	
@@ -264,23 +283,21 @@ public class Controller {
      *  }
 	 * 
 	 * Dove le città possono essere quante se ne vuole inserire, ma che possono essere solo Ancona, Campobasso,
-	 * Roma, Tolentino e San Martino in Pensilis.
+	 * Macerata, Roma, San Martino in Pensilis e Tolentino.
 	 * 
 	 * 
 	 * @param è un JSONObject come sopra indicato.
 	 * @return
-	 * @throws 
+	 * @throws CityNotFoundException se tra i nomi delle città ce n'è almeno uno diverso da quelli indicati sopra.
 	 */
 	
 	
 	
 	@PostMapping("/filtersHistory")
-	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws IOException {
+	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws IOException, CityNotFoundException {
 		
 		JSONObject object = new JSONObject(body);
         JSONArray array = new JSONArray();
-
- 
 
         array = object.getJSONArray("cities");
         
@@ -295,8 +312,13 @@ public class Controller {
         int error = object.getInt("error");
         String value = object.getString("value");
         int period = object.getInt("period");
-		
-		return new ResponseEntity<>(service.readHistory2(cities,error,value,period).toString(),HttpStatus.OK);
+        
+        try {
+        	return new ResponseEntity<>(service.readHistory2(cities,error,value,period).toString(),HttpStatus.OK);
+        }
+        catch(CityNotFoundException e) {
+        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+        }
 		
 	}
 
