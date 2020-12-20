@@ -91,7 +91,7 @@ class ToJSONTest {
 		
 		weatherObject.put("Weather", weatherArr);
 		
-		assertEquals(weatherObject,tojson.parser(city));
+		assertEquals(weatherObject.toString(),tojson.parser(city).toString());
 		
     }
 

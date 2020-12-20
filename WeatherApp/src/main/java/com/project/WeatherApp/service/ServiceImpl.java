@@ -277,15 +277,14 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	}
 	
 	
-	public JSONArray readHistory(String name1, String name2, String name3) throws IOException {
+	public JSONArray readHistory(String name) throws IOException {
 		
 		String path = "C:/Users/feder/eclipse-workspace/History";
 		
+		String everything;
 			
-			//Scanner file_output = new Scanner(new BufferedReader(new FileReader(path)));
-			String everything;
-			
-			BufferedReader br = new BufferedReader(new FileReader(path));
+		BufferedReader br = new BufferedReader(new FileReader(path));
+		
 			try {
 			    StringBuilder sb = new StringBuilder();
 			    String line = br.readLine();
@@ -355,6 +354,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 				
 				for(int i=0; i<array.length(); i++) {
 					
+					JSONArray visibilityday = new JSONArray();
 					
 					JSONObject weather = new JSONObject();
 					weather = array.getJSONObject(i);
@@ -371,9 +371,14 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 						
 						visibility.put("visibility", all.get("visibility"));
 						visibility.put("data", all.get("data"));
-						visibilityInfo.put(visibility);
+						visibilityday.put(visibility);
 						
+					
 					}
+					
+					visibilityInfo.put(visibilityday);
+					
+					
 					
 				}
 
@@ -381,9 +386,9 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 				
 			}
 			
+		
 			Statistics non = new Statistics();
 			errors = non.errorThreshold(cities, visibilityArray,error,value,period);
-			
 			
 			return errors;
 			

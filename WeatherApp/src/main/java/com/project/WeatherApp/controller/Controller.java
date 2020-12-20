@@ -145,7 +145,7 @@ public class Controller {
     public ResponseEntity<Object> showHistory(@RequestParam String cityName) throws IOException {
 		
 		JSONArray history = new JSONArray();
-		history = service.readHistory(cityName, cityName, cityName);
+		history = service.readHistory(cityName);
 		
 		return new ResponseEntity<> (history.toString(), HttpStatus.OK);
 	}
