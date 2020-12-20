@@ -27,7 +27,7 @@ public interface Service {
 	public abstract City getCityWeatherRistrictfromApi(String city);
 	public abstract String save(String city) throws IOException;
 	public String saveEveryHour(String cityName);
-	public abstract JSONArray readHistory(String name1, String name2, String name3) throws IOException;
+	public abstract JSONArray readHistory(String name) throws IOException;
 	public abstract ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException;
 	
 }
