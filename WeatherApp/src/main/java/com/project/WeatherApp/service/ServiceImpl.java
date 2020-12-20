@@ -27,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.stereotype.Service;
 
 import com.project.WeatherApp.exception.CityNotFoundException;
+import com.project.WeatherApp.exception.EmptyStringException;
 import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.utils.Statistics;
 
@@ -217,7 +218,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			
 		}
 		
-		catch (Exception e){
+		catch (Exception e) {
 			System.err.println("Error: " + e);
 		}
         
@@ -311,12 +312,15 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	 * servono per fare statistiche e filtri.
 	 * @param ArrayList di stringhe dei nomi delle città, la soglia di errore di cui si vuole sapere se le città abbiano una
 	 * soglia minore, maggiore o uguale (a seconda che value sia "$lt" o "$gt" o "=". 
+	 * @throws EmptyStringException se almeno uno dei nomi inseriti è uguale alla stringa vuota.
 	 */
-	public ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException {
+	public ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException  {
 		
 			for(int i=0; i<cities.size(); i++) {
-				if(!(cities.get(i).equals("Ancona") || cities.get(i).equals("Campobasso") || cities.get(i).equals("Macerata") || cities.get(i).equals("Roma") || cities.get(i).equals("San Martino in Pensilis") || cities.get(i).equals("Tolentino")))
-					throw new CityNotFoundException ("Città non trovata nello storico");
+				if(cities.get(i).isEmpty())
+					throw new EmptyStringException ("Hai dimenticato di inserire la città...");
+				else if(!(cities.get(i).equals("Ancona") || cities.get(i).equals("Campobasso") || cities.get(i).equals("Macerata") || cities.get(i).equals("Roma") || cities.get(i).equals("San Martino in Pensilis") || cities.get(i).equals("Tolentino")))
+					throw new CityNotFoundException("Città non trovata nello storico");
 			}
 		
 		
@@ -382,6 +386,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			
 			
 			return errors;
+			
 	}
 	
 	
