@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.WeatherApp.exception.CityNotFoundException;
+import com.project.WeatherApp.exception.EmptyStringException;
 import com.project.WeatherApp.exception.WrongParamException;
 import com.project.WeatherApp.exception.WrongPeriodException;
 import com.project.WeatherApp.exception.WrongValueException;
@@ -289,12 +290,13 @@ public class Controller {
 	 * @param è un JSONObject come sopra indicato.
 	 * @return
 	 * @throws CityNotFoundException se tra i nomi delle città ce n'è almeno uno diverso da quelli indicati sopra.
+	 * @throws EmptyStringException se tra i nomi delle città ce n'è almeno uno vuoto.
 	 */
 	
 	
 	
 	@PostMapping("/filtersHistory")
-	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws IOException, CityNotFoundException {
+	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws IOException,EmptyStringException, CityNotFoundException {
 		
 		JSONObject object = new JSONObject(body);
         JSONArray array = new JSONArray();
@@ -315,6 +317,9 @@ public class Controller {
         
         try {
         	return new ResponseEntity<>(service.readHistory2(cities,error,value,period).toString(),HttpStatus.OK);
+        }
+        catch(EmptyStringException e) {
+        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
         }
         catch(CityNotFoundException e) {
         	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
