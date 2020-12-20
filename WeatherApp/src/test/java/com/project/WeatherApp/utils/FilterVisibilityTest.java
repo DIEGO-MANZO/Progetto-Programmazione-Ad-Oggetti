@@ -62,20 +62,22 @@ class FilterVisibilityTest {
 	        
 	    }
 	    
-	    /**
-		  * Questo Test verifica se viene generata correttamente l'eccezione WrongValue.
-		  */
-		    @Test
-		    @DisplayName("Corretta generazione dell'eccezione WrongValueException.")
-		    void fiveDay() {
+	 /**
+	  * Questo Test verifica se viene generata correttamente l'eccezione WrongValue.
+	  */
+	    @Test
+	    @DisplayName("Corretta generazione dell'eccezione WrongValueException.")
+	    void fiveDay() {
 				
-		    	cities.add("Campobasso");
-		        cities.add("Macerata");
+		    cities.add("Campobasso");
+		    cities.add("Macerata");
 		        
 		    	
-		        WrongValueException e = assertThrows(WrongValueException.class, () -> {filter.oneDay(cities,"k");});
+		    WrongValueException e = assertThrows(WrongValueException.class, () -> {filter.oneDay(cities,"k");});
 		    
-		        assertEquals("k è una stringa errata! Devi inserire una stringa tra max/MAX/Max oppure min/MIN/Min", e.getMex());
+		    assertEquals("k è una stringa errata! Devi inserire una stringa tra max/MAX/Max oppure min/MIN/Min", e.getMex());
 		        
-		    }
+	   }
+	    
+	    
 }
