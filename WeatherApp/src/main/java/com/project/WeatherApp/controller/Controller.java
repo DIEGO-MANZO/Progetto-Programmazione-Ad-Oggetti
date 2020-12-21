@@ -115,8 +115,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Rotta di tipo GET che salva automaticamente in un file "HourlyReport.txt" le previsioni meteo ristrette della
-	 * città richiesta dall'utente.
+	 * Rotta di tipo GET che salva ogni ora le previsioni sulla visibilità della città.
 	 * 
 	 * @param cityName rappresenta la città della quale si richiede di salvare il report.
 	 * @return il path dove viene salvato il file.
@@ -132,61 +131,105 @@ public class Controller {
 	}
 	
 	/**
-	 * Rotta di tipo GET che mostra lo storico della città richiesta dall'utente.
+	 * Rotta di tipo POST che mostra la media della temperatura massima, minima, percepita e la media, la minima,
+	 * la massima e la varianza della visibilità del giorno corrente o su 5 giorni, a seconda del period che 
+	 * l'utente immette. 
 	 * 
-	 * @param cityName rappresenta la città di cui si richiede lo storico.
-	 * @return lo storico sotto forma di JSONArray.
-	 * @throws IOException se si verificano errori di input da file.
-	 */
-	/*
-	@GetMapping(value="/showHistory")
-    public ResponseEntity<Object> showHistory(@RequestParam String cityName) throws IOException {
-		
-		JSONArray history = new JSONArray();
-		history = service.readHistory(cityName);
-		
-		return new ResponseEntity<> (history.toString(), HttpStatus.OK);
-	}
-	*/
-	
-	/**
-	 * Rotta di tipo GET che mostra la media della temperatura massima, minima, percepita e della visibilità del giorno
-	 * corrente.
+	 * {
+     *		"city" : "Ancona",
+     *		"period" : "five day"
+	 *	}
 	 * 
 	 * @param cityName rappresenta la città di cui si richiede la statistica.
 	 * @return il JSONObject che contiene la statistica richiesta.
-	 * @throws 
+	 * @throws IOException se c'è stato un errore di lettura del file.
+	 * @throws WrongPeriodException se l'utente ha immesso una stringa per period non ammessa.
 	 */
 	
-	@GetMapping(value="/todayAverage")
-    public ResponseEntity<Object> todayAverage(@RequestParam String cityName) throws IOException {
-		/*
-		JSONObject stat = new JSONObject();
-		stat = statistic.todayAverage(cityName);
-		*/
-		//return new ResponseEntity<> (stat.toString(), HttpStatus.OK);
-		return new ResponseEntity<> (statistic.todayAverage(cityName).toString(), HttpStatus.OK);
+	@PostMapping(value="/stats")
+    public ResponseEntity<Object> stats(@RequestBody String body) throws IOException, WrongPeriodException {
+		
+		JSONObject request = new JSONObject(body);
+		String period = request.getString("period");
+		String cityName = request.getString("city");
+		
+		try {
+		if(period.equals("today"))
+			return new ResponseEntity<> (statistic.todayAverage(cityName).toString(), HttpStatus.OK);
+		else if(period.equals("five day"))
+			return new ResponseEntity<> (statistic.fiveDayAverage(cityName).toString(), HttpStatus.OK);
+		else throw new WrongPeriodException(period + " non è ammesso");
+		}
+		catch (WrongPeriodException e) {
+			return new ResponseEntity<> (e.getMex(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
-	 * Rotta di tipo GET che mostra la media della temperatura massima, minima, percepita e della visibilità dei 5 giorni
-	 * successivi a quello corrente.
+	 * Rotta di tipo POST che filtra in base al periodo le statistiche sulla visibilità delle città 
+	 * delle quali è presente lo storico.
 	 * 
-	 * @param cityName rappresenta la città di cui si richiede la statistica.
-	 * @return il JSONObject che contiene la statistica richiesta.
-	 * @throws 
+	 * L'utente deve inserire un JSONObject di questo tipo:
+	 * 
+	 * {
+     *     "cities": [
+     *        {
+     *          "name": "Tolentino"
+     *        },
+     *        {
+     *          "name": "San Martino in Pensilis"
+     *        },
+     *        {
+     *          "name": "Ancona"
+     *        }
+     *      ],
+     *     "period": "giornaliera"
+     *  }
+	 * 
+	 * a seconda del "period"(giornaliera, settimanale, trisettimanale) su cui si vuole fare 
+	 * statistica. Le città ammesse sono solo Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino.
+	 * 
+	 * @param è un JSONObject come sopra indicato.
+	 * @return il JSONArray che contiene tanti JSONObject quante sono le città specificate nella richiesta
+	 *         ognuno dei quali contiene il nome della città e la media del "param" indicato. In più il JSONArray contiene
+	 *         un ultimo JSONObject al cui interno è contenuta la massima o minima media a seconda del valore indicato.
+	 * @throws WrongPeriodException se il numero immesso è errato.
+	 * @throws CityNotFoundException se la città immessa non è una tra quelle indicate sopra.
+	 * @throws EmptyStringException se una delle stringhe immesse è vuota.
+	 * @throws WrongValueException se viene inserita una stringa errata per value.
+	 * @throws WrongParamException se viene inserita una stringa errata per param.
 	 */
+	
+	
+	@PostMapping(value="/statsHistory")
+    public ResponseEntity<Object> statsHistory(@RequestBody String body) throws IOException, WrongPeriodException, EmptyStringException, CityNotFoundException {
+		
+		JSONObject object = new JSONObject(body);
+        JSONArray array = new JSONArray();
 
-	@GetMapping(value="/fiveDayAverage")
-    public ResponseEntity<Object> fiveDayAverage(@RequestParam String cityName) throws IOException {
-		/*
-		JSONObject obj = new JSONObject();
-		obj = statistic.fiveDayAverage(cityName);
+        array = object.getJSONArray("cities");
+        
+        ArrayList<String> cities = new ArrayList<String>(array.length());
+        
+        for(int i=0; i<array.length();i++) {
+            JSONObject obj = new JSONObject();
+            obj = array.getJSONObject(i);
+            cities.add(obj.getString("name"));
+        }
 		
-		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
-		*/
-		return new ResponseEntity<> (statistic.fiveDayAverage(cityName).toString(), HttpStatus.OK);
+        String period = object.getString("period");
+        
+        try {
+        	return new ResponseEntity<>(service.readVisibilityHistory(cities,period).toString(),HttpStatus.OK);
+        }
+        catch (WrongPeriodException e) {
+        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+        }
+		
 	}
+	
+	
+	
 	
 	/**
 	 * Rotta di tipo POST che filtra le statistiche in base all'informazione che si vuole richiedere.
@@ -297,7 +340,7 @@ public class Controller {
 	
 	
 	
-	@PostMapping("/filtersHistory")
+	@PostMapping("/errors")
 	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws IOException,EmptyStringException, CityNotFoundException {
 		
 		JSONObject object = new JSONObject(body);
@@ -318,7 +361,7 @@ public class Controller {
         int period = object.getInt("period");
         
         try {
-        	return new ResponseEntity<>(service.readHistory2(cities,error,value,period).toString(),HttpStatus.OK);
+        	return new ResponseEntity<>(service.readHistoryError(cities,error,value,period).toString(),HttpStatus.OK);
         }
         catch(EmptyStringException e) {
         	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);

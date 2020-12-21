@@ -36,12 +36,13 @@ public class FilterTempMin implements FilterStats {
 		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
 		ArrayList<Double> averageTempMin = new ArrayList<Double>();
 		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
+		ArrayList<String> names = new ArrayList<String>();
 		
 		Iterator<String> it = cities.iterator();
 		
 		double request1 = 0;
 		double request2 = 1000;
-		//String name = "";
+	
 		int i = 0;
 		
 		while(it.hasNext()) {
@@ -59,20 +60,28 @@ public class FilterTempMin implements FilterStats {
 			
 			if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
 				
-					if(ave>=request1) {
-						request1 = ave;
-						//name += cities.get(i) + " ";
-					}
-					i++;
+				if(ave>request1) {
+					request1 = ave;
+					names = new ArrayList<String>();
+					names.add(cities.get(i));
+				}
+				else if(ave==request1) {
+					names.add(cities.get(i));
+				}
+				i++;
 				
 			}
 			else if(value.equals("min") || value.equals("MIN") || value.equals("Min")) {
 				
-					if(ave<=request2) {
-						request2 = ave;
-						//name += cities.get(i) + " ";
-					}
-					i++;
+				if(ave<request2) {
+					request2 = ave;
+					names = new ArrayList<String>();
+					names.add(cities.get(i));
+				}
+				else if(ave==request2) {
+					names.add(cities.get(i));
+				}
+				i++;
 			}
 			else throw new WrongValueException (value+" è una stringa errata! Devi inserire una stringa tra max/MAX/Max oppure min/MIN/Min");
 				
@@ -81,11 +90,11 @@ public class FilterTempMin implements FilterStats {
 		JSONObject object = new JSONObject();
 		
 		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			//object.put("City with max average", name);
+			object.put("City with max average", names);
 			object.put("max average", request1);
 		}
 		else { 
-			//object.put("City with min average", name);
+			object.put("City with min average", names);
 			object.put("min average", request2);
 		}
 		
@@ -116,12 +125,13 @@ public class FilterTempMin implements FilterStats {
 		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
 		ArrayList<Double> averageTempMin = new ArrayList<Double>();
 		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
+		ArrayList<String> names = new ArrayList<String>();
 		
 		Iterator<String> it = cities.iterator();
 		
 		double request1 = 0;
 		double request2 = 1000;
-		//String name = "";
+		
 		int i = 0;
 		
 		while(it.hasNext()) {
@@ -139,20 +149,28 @@ public class FilterTempMin implements FilterStats {
 			
 			if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
 				
-					if(ave>=request1) {
-						request1 = ave;
-						//name += cities.get(i) + " ";
-					}
-					i++;
+				if(ave>request1) {
+					request1 = ave;
+					names = new ArrayList<String>();
+					names.add(cities.get(i));
+				}
+				else if(ave==request1) {
+					names.add(cities.get(i));
+				}
+				i++;
 				
 			}
 			else if(value.equals("min") || value.equals("MIN") || value.equals("Min")) {
 				
-					if(ave<=request2) {
-						request2 = ave;
-						//name += cities.get(i) + " ";
-					}
-					i++;
+				if(ave<request2) {
+					request2 = ave;
+					names = new ArrayList<String>();
+					names.add(cities.get(i));
+				}
+				else if(ave==request2) {
+					names.add(cities.get(i));
+				}
+				i++;
 			}
 			else throw new WrongValueException (value+" è una stringa errata! Devi inserire una stringa tra max/MAX/Max oppure min/MIN/Min");
 				
@@ -161,11 +179,11 @@ public class FilterTempMin implements FilterStats {
 		JSONObject object = new JSONObject();
 		
 		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			//object.put("City with max average", name);
+			object.put("City with max average", names);
 			object.put("max average", request1);
 		}
 		else { 
-			//object.put("City with min average", name);
+			object.put("City with min average", names);
 			object.put("min average", request2);
 		}
 		

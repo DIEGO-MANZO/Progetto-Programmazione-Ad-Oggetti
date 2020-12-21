@@ -37,15 +37,14 @@ public class ErrorCalculator extends FindDay {
 		
 		ArrayList<JSONObject> ret = new ArrayList<JSONObject> ();
 		
-		
-		int errortot = 0;
 		Iterator<JSONArray> visibilityIt = visibilityInfo.iterator();
 		Iterator<String> citiesIt = cities.iterator();
 		
 		while(visibilityIt.hasNext() && citiesIt.hasNext()) {
 			
+			int errortot = 0;
 			int azzeccate = 0;
-			int contatore=0;
+			int contatore = 0;
 			
 			//mettiamo le informazioni della città che si trova al posto i
 			JSONArray cityVisibility = new JSONArray();
