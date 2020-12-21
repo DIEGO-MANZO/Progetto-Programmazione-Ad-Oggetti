@@ -6,7 +6,7 @@ import org.json.JSONObject;
 public class FindDay {
 
 	public FindDay() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public JSONObject findDay(JSONArray cityVisibility, int period) {

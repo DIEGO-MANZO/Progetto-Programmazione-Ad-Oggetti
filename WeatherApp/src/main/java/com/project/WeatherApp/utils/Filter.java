@@ -3,10 +3,7 @@ package com.project.WeatherApp.utils;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.WrongParamException;
 import com.project.WeatherApp.exception.WrongPeriodException;
 import com.project.WeatherApp.exception.WrongValueException;

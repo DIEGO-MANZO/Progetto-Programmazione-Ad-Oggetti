@@ -2,8 +2,6 @@ package com.project.WeatherApp.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -79,7 +77,7 @@ public class Controller {
 		JSONObject obj = new JSONObject();
 		ToJSON tojson = new ToJSON();
 		
-		obj = tojson.parser(city);
+		obj = tojson.toJson(city);
 		
 		
 		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
@@ -128,7 +126,7 @@ public class Controller {
 	@GetMapping(value="/saveEveryHour")
     public ResponseEntity<Object> saveHour(@RequestParam String cityName) throws IOException {
 		
-		String path = service.saveEveryHour(cityName);;
+		String path = service.saveEveryHour(cityName);
 		
 		return new ResponseEntity<> (path, HttpStatus.OK);
 	}
@@ -140,7 +138,7 @@ public class Controller {
 	 * @return lo storico sotto forma di JSONArray.
 	 * @throws IOException se si verificano errori di input da file.
 	 */
-	
+	/*
 	@GetMapping(value="/showHistory")
     public ResponseEntity<Object> showHistory(@RequestParam String cityName) throws IOException {
 		
@@ -149,6 +147,7 @@ public class Controller {
 		
 		return new ResponseEntity<> (history.toString(), HttpStatus.OK);
 	}
+	*/
 	
 	/**
 	 * Rotta di tipo GET che mostra la media della temperatura massima, minima, percepita e della visibilità del giorno
@@ -161,11 +160,12 @@ public class Controller {
 	
 	@GetMapping(value="/todayAverage")
     public ResponseEntity<Object> todayAverage(@RequestParam String cityName) throws IOException {
-		
+		/*
 		JSONObject stat = new JSONObject();
 		stat = statistic.todayAverage(cityName);
-		
-		return new ResponseEntity<> (stat.toString(), HttpStatus.OK);
+		*/
+		//return new ResponseEntity<> (stat.toString(), HttpStatus.OK);
+		return new ResponseEntity<> (statistic.todayAverage(cityName).toString(), HttpStatus.OK);
 	}
 	
 	/**
@@ -179,11 +179,13 @@ public class Controller {
 
 	@GetMapping(value="/fiveDayAverage")
     public ResponseEntity<Object> fiveDayAverage(@RequestParam String cityName) throws IOException {
-		
+		/*
 		JSONObject obj = new JSONObject();
 		obj = statistic.fiveDayAverage(cityName);
 		
 		return new ResponseEntity<> (obj.toString(), HttpStatus.OK);
+		*/
+		return new ResponseEntity<> (statistic.fiveDayAverage(cityName).toString(), HttpStatus.OK);
 	}
 	
 	/**

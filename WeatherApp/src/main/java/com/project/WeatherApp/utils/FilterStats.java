@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
-import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.WrongValueException;
 
 /**

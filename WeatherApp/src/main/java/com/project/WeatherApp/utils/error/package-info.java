@@ -1,9 +1,9 @@
 /**
- * Questo package serve per permettere al client di fare chiamate attraverso il Server.
+ * Questo package contiene classi e quindi metodi utili a calcolare e filtrare la soglia di errore.
  */
 /**
- * @author Federica
- * @author Francesca
+ * @author Federica Parlapiano
+ * @author Francesca Palazzetti
  */
 
 package com.project.WeatherApp.utils.error;

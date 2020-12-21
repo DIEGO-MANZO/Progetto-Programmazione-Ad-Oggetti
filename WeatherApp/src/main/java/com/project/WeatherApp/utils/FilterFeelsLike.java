@@ -6,7 +6,6 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.WrongValueException;
 
 
@@ -54,7 +53,7 @@ public class FilterFeelsLike implements FilterStats {
 			averageFeelsLike.add(ave);
 			
 			JSONObject obj = new JSONObject();
-			obj.put("cityName:",cities.get(i));
+			obj.put("cityName:", cities.get(i)); //it.next()?
 			obj.put("feels_like_average:",ave);
 			objects.add(obj);
 			array.put(obj);

@@ -6,7 +6,6 @@ import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.WrongValueException;
 
 /**
