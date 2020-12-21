@@ -1,6 +1,5 @@
 package com.project.WeatherApp.model;
 
-import java.io.Serializable;
 
 /** Classe che rappresenta le previsioni meteo ristrette.
  * @author Federica

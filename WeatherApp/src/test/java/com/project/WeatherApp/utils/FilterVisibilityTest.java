@@ -5,7 +5,6 @@ package com.project.WeatherApp.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.project.WeatherApp.exception.WrongParamException;
 import com.project.WeatherApp.exception.WrongValueException;
 
 /** Questa classe testa i metodi di ServiceImpl.

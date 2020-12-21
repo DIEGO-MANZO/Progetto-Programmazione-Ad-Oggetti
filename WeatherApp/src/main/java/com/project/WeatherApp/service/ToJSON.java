@@ -19,7 +19,7 @@ public class ToJSON {
 	 * @param city città che si vuole come un JSONObject.
 	 * @return il JSONObject che rappresenta la città.
 	 */
-	public JSONObject parser(City city) {
+	public JSONObject toJson(City city) {
 		
 		
 		JSONObject object = new JSONObject();

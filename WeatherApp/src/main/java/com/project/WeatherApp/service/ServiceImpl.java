@@ -7,7 +7,6 @@ package com.project.WeatherApp.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,12 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
-import org.json.simple.parser.*;
 import org.json.JSONObject;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.stereotype.Service;
@@ -29,7 +25,7 @@ import org.springframework.stereotype.Service;
 import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.EmptyStringException;
 import com.project.WeatherApp.model.*;
-import com.project.WeatherApp.utils.Statistics;
+import com.project.WeatherApp.utils.error.ErrorCalculator;
 
 
 
@@ -200,7 +196,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		JSONObject obj = new JSONObject();
 		ToJSON tojson = new ToJSON();
         
-		obj = tojson.parser(city);
+		obj = tojson.toJson(city);
         
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 		String today = date.format(new Date());
@@ -249,7 +245,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 				JSONObject obj = new JSONObject();
 				ToJSON tojson = new ToJSON();
 		        
-				obj = tojson.parser(city);
+				obj = tojson.toJson(city);
 
 		    			try{
 		    			    if(!file.exists()) {
@@ -276,6 +272,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 	}
 	
+	/*
 	
 	public JSONArray readHistory(String name) throws IOException {
 		
@@ -305,12 +302,19 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			return array;
 			
 	}
+	*/
 	
 	/**
 	 * Questo metodo serve per leggere lo storico di ogni città passata in ingresso e richiama altri metodi che 
 	 * servono per fare statistiche e filtri.
 	 * @param ArrayList di stringhe dei nomi delle città, la soglia di errore di cui si vuole sapere se le città abbiano una
 	 * soglia minore, maggiore o uguale (a seconda che value sia "$lt" o "$gt" o "=". 
+	 * @param cities contiene i nomi di tutte le città su cui si vogliono applicare i filtri.
+	 * @param error è l'intero che rappresenta la soglia con cui si vuole filtrare.
+	 * @param value esprime il filtro che si vuole applicare, cioè se si vuole sapere quali città hanno un errore maggiore
+	 *        o minore di un certo intero error
+	 * @param period rappresenta i giorni di predizione (da 1 a 5).
+	 * @return restituisce l'ArrayList di JSONObject filtrati secondo i filtri indicati.
 	 * @throws EmptyStringException se almeno uno dei nomi inseriti è uguale alla stringa vuota.
 	 */
 	public ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException  {
@@ -386,9 +390,8 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 				
 			}
 			
-		
-			Statistics non = new Statistics();
-			errors = non.errorThreshold(cities, visibilityArray,error,value,period);
+			ErrorCalculator errorcalculator = new ErrorCalculator();
+			errors = errorcalculator.calculate(cities,visibilityArray, error, value, period);
 			
 			return errors;
 			

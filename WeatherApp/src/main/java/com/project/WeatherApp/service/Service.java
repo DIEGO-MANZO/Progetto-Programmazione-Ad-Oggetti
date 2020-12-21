@@ -9,9 +9,6 @@ import com.project.WeatherApp.model.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-import org.json.simple.parser.ParseException;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -27,7 +24,7 @@ public interface Service {
 	public abstract City getCityWeatherRistrictfromApi(String city);
 	public abstract String save(String city) throws IOException;
 	public String saveEveryHour(String cityName);
-	public abstract JSONArray readHistory(String name) throws IOException;
+	//public abstract JSONArray readHistory(String name) throws IOException;
 	public abstract ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException;
 	
 }

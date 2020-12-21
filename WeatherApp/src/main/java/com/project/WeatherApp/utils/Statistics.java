@@ -1,12 +1,8 @@
 package com.project.WeatherApp.utils;
 
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.model.City;
 import com.project.WeatherApp.service.ServiceImpl;
 import com.project.WeatherApp.utils.error.ErrorCalculator;
@@ -18,7 +14,7 @@ import com.project.WeatherApp.utils.error.ErrorCalculator;
  */
 
 
-public class Statistics extends Error {
+public class Statistics extends ErrorCalculator {
 	
 	ServiceImpl service = new ServiceImpl();
 	
@@ -172,19 +168,6 @@ public class Statistics extends Error {
         return object;
         
     }
-    
-    public ArrayList<JSONObject> errorThreshold(ArrayList<String> cities,ArrayList<JSONArray> visibilityInfo,int error,String value,int period) {
-    	
-    	ArrayList<JSONObject> errors = new ArrayList<JSONObject>();
-    	
-    	ErrorCalculator err = new ErrorCalculator();
-    	
-    	errors = err.calculate(cities, visibilityInfo, error, value, period);
-    	
-    	return errors;
-    	
-    }
-    
     
     
 

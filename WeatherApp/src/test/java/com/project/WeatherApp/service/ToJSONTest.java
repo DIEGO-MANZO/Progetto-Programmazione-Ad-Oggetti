@@ -1,11 +1,8 @@
 package com.project.WeatherApp.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
 
 import org.json.JSONArray;
@@ -55,7 +52,7 @@ class ToJSONTest {
      */
 	@Test
     @DisplayName("Corretto parsing")
-    void parser() throws IOException {
+    void toJson() throws IOException {
     	
         city.setName("Fermo");
         city.setId(12);
@@ -91,7 +88,7 @@ class ToJSONTest {
 		
 		weatherObject.put("Weather", weatherArr);
 		
-		assertEquals(weatherObject.toString(),tojson.parser(city).toString());
+		assertEquals(weatherObject.toString(),tojson.toJson(city).toString());
 		
     }
 

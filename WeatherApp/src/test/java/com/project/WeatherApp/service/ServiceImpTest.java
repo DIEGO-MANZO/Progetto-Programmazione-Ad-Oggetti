@@ -24,7 +24,6 @@ import com.project.WeatherApp.exception.EmptyStringException;
 class ServiceImpTest {
 
 	private ServiceImpl service;
-    private Exception exception;
     private ArrayList<String> cities;
     
 	 /**

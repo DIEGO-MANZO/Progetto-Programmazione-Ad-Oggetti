@@ -9,6 +9,11 @@ package com.project.WeatherApp.exception;
  */
 public class WrongValueException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	String mex;
 	/**
 	 * Questo è il costruttore.
