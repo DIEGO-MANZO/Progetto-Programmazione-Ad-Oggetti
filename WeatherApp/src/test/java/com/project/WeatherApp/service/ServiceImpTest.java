@@ -74,7 +74,7 @@ class ServiceImpTest {
     	cities.add("San Martino in Pensilis");
         cities.add("Fermo");
     	
-        CityNotFoundException e = assertThrows(CityNotFoundException.class, () -> {service.readHistory2(cities,1,"max",1);});
+        CityNotFoundException e = assertThrows(CityNotFoundException.class, () -> {service.readHistoryError(cities,1,"max",1);});
     
         assertEquals("Città non trovata nello storico", e.getMex());
         
@@ -90,7 +90,7 @@ class ServiceImpTest {
     	cities.add("Ancona");
         cities.add("");
     	
-        EmptyStringException e = assertThrows(EmptyStringException.class, () -> {service.readHistory2(cities,1,"max",1);});
+        EmptyStringException e = assertThrows(EmptyStringException.class, () -> {service.readHistoryError(cities,1,"max",1);});
         
         assertEquals("Hai dimenticato di inserire la città...", e.getMex());
         

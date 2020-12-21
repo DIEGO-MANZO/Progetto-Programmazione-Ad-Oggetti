@@ -1,7 +1,12 @@
 package com.project.WeatherApp;
 
+import java.util.ArrayList;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.project.WeatherApp.service.Service;
+import com.project.WeatherApp.service.ServiceImpl;
 
 /** Avvia l'applicazione Spring.
  * @author Federica Parlapiano
@@ -14,6 +19,15 @@ public class WeatherAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(WeatherAppApplication.class, args);
+		
+		ServiceImpl service = new ServiceImpl();
+		service.saveEveryHour("Ancona");
+		service.saveEveryHour("Campobasso");
+		service.saveEveryHour("Macerata");
+		service.saveEveryHour("Roma");
+		service.saveEveryHour("San Martino in Pensilis");
+		service.saveEveryHour("Tolentino");
+		
 	}
 
 }

@@ -7,7 +7,7 @@ package com.project.WeatherApp.exception;
  *
  */
 
-public class CityNotFoundException extends Exception{
+public class CityNotFoundException extends Exception {
 	
 	String mex;
 	

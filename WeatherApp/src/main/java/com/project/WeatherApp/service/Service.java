@@ -5,6 +5,7 @@ package com.project.WeatherApp.service;
 
 import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.EmptyStringException;
+import com.project.WeatherApp.exception.WrongPeriodException;
 import com.project.WeatherApp.model.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -25,6 +26,6 @@ public interface Service {
 	public abstract String save(String city) throws IOException;
 	public String saveEveryHour(String cityName);
 	//public abstract JSONArray readHistory(String name) throws IOException;
-	public abstract ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException;
-	
+	public abstract ArrayList<JSONObject> readHistoryError(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException;
+	public abstract ArrayList<JSONArray> readVisibilityHistory(ArrayList<String> cities,String period) throws IOException, EmptyStringException, CityNotFoundException, WrongPeriodException;
 }

@@ -24,7 +24,9 @@ import org.springframework.stereotype.Service;
 
 import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.EmptyStringException;
+import com.project.WeatherApp.exception.WrongPeriodException;
 import com.project.WeatherApp.model.*;
+import com.project.WeatherApp.utils.VisibilityStatistics;
 import com.project.WeatherApp.utils.error.ErrorCalculator;
 
 
@@ -229,7 +231,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	 */
 	public String saveEveryHour(String cityName) {
 		
-		String path = "C:/Users/feder/eclipse-workspace/HourlyReport.txt";
+		String path = "C:/Users/feder/eclipse-workspace/"+cityName+"HourlyReport.txt";
 		
 		File file = new File(path);
 		
@@ -238,14 +240,11 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		    @Override
 		    public void run() {
 		    	
-		    	City city = new City();
-				city = getCityWeatherRistrictfromApi(cityName);
-				
-		        
-				JSONObject obj = new JSONObject();
-				ToJSON tojson = new ToJSON();
-		        
-				obj = tojson.toJson(city);
+		    	JSONArray visibility = new JSONArray();
+		    	visibility = getVisibilityfromApi(cityName);
+		    	
+		    	JSONObject actualvisibility = new JSONObject();
+		    	actualvisibility = visibility.getJSONObject(0);
 
 		    			try{
 		    			    if(!file.exists()) {
@@ -255,7 +254,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		    			    FileWriter fileWriter = new FileWriter(file, true);
 		    				
 		    				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-		    			    bufferedWriter.write(obj.toString());
+		    			    bufferedWriter.write(actualvisibility.toString());
 		    			    bufferedWriter.write("\n");
 		    			    
 		    			    bufferedWriter.close();
@@ -265,18 +264,20 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		    			}
 		    	
 		    }
-		}, 0, 1, TimeUnit.MINUTES);
+		}, 0, 3, TimeUnit.HOURS);
 		
 		
 		return "Il file è stato salvato in " + path;
 		
 	}
 	
-	/*
+	
 	
 	public JSONArray readHistory(String name) throws IOException {
 		
-		String path = "C:/Users/feder/eclipse-workspace/History";
+		
+		
+		String path = "C:/Users/feder/eclipse-workspace/History/" +name+".txt";
 		
 		String everything;
 			
@@ -302,7 +303,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			return array;
 			
 	}
-	*/
+	
 	
 	/**
 	 * Questo metodo serve per leggere lo storico di ogni città passata in ingresso e richiama altri metodi che 
@@ -317,7 +318,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	 * @return restituisce l'ArrayList di JSONObject filtrati secondo i filtri indicati.
 	 * @throws EmptyStringException se almeno uno dei nomi inseriti è uguale alla stringa vuota.
 	 */
-	public ArrayList<JSONObject> readHistory2(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException  {
+	public ArrayList<JSONObject> readHistoryError(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException  {
 		
 			for(int i=0; i<cities.size(); i++) {
 				if(cities.get(i).isEmpty())
@@ -332,28 +333,12 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			ArrayList<JSONArray> visibilityArray = new ArrayList<JSONArray>();
 			ArrayList<JSONObject> errors = new ArrayList<JSONObject>();
 			
-			while(it.hasNext()) {
-						
-				String path = "C:/Users/feder/eclipse-workspace/History/"+it.next()+".txt";
-				
-				String everything;
-				
-				BufferedReader br = new BufferedReader(new FileReader(path));
-				try {
-				    StringBuilder sb = new StringBuilder();
-				    String line = br.readLine();
-
-				    while (line != null) {
-				        sb.append(line);
-				        sb.append(System.lineSeparator());
-				        line = br.readLine();
-				    }
-				    everything = sb.toString();
-				} finally {
-				    br.close();
-				}
+			int p=0;
 			
-				JSONArray array = new JSONArray(everything);
+			while(it.hasNext()) {
+				
+				JSONArray array = new JSONArray();
+				array = readHistory(it.next());
 				JSONArray visibilityInfo = new JSONArray();
 				
 				for(int i=0; i<array.length(); i++) {
@@ -385,8 +370,10 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 					
 					
 				}
-
+				System.out.println(cities.get(p));
+				System.out.println(visibilityInfo);
 				visibilityArray.add(visibilityInfo);
+				p++;
 				
 			}
 			
@@ -398,6 +385,67 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	}
 	
 	
+	
+	/**
+	 * Questo metodo serve per andare a leggere i file su cui sono salvate le informazioni relative alla visibilità 
+	 * per 3 settimane. Dopo aver salvato in un ArrayList di JSONArray le informazioni di ogni città, lo passa al metodo
+	 * che serve per calcolare le statistiche sulla visibilità.
+	 * @param cities rappresenta i nomi delle città su cui si vogliono fare statistiche.
+	 * @param period rappresenta il periodo su cui si vuole fare la statistica.
+	 * @throws IOException se si verifica un errore di lettura del file.
+	 * @throws EmptyStringException se almeno una delle stringhe immesse è vuota.
+	 * @throws CityNotFoundException se la città immessa non è una tra quelle indicate sopra.
+	 * @throws EmptyStringException se una delle stringhe immesse è vuota.
+	 * @throws WrongPeriodException se viene inserita una stringa errata per period.
+	 */
+	public ArrayList<JSONArray> readVisibilityHistory(ArrayList<String> cities, String period) throws IOException, EmptyStringException, CityNotFoundException, WrongPeriodException {
+		
+		Iterator<String> it1 = cities.iterator();
+		Iterator<String> it2 = cities.iterator();
+		ArrayList<JSONArray> visibilityInfo = new ArrayList<JSONArray>();
+		ArrayList<JSONArray> info = new ArrayList<JSONArray>();
+		
+		for(int i=0; i<cities.size(); i++) {
+			if(cities.get(i).isEmpty())
+				throw new EmptyStringException ("Hai dimenticato di inserire la città...");
+			else if(!(cities.get(i).equals("Ancona") || cities.get(i).equals("Campobasso") || cities.get(i).equals("Macerata") || cities.get(i).equals("Roma") || cities.get(i).equals("San Martino in Pensilis") || cities.get(i).equals("Tolentino")))
+				throw new CityNotFoundException("Città non trovata nello storico");
+		}
+		
+		
+		while(it1.hasNext()) {
+			
+			JSONArray array = new JSONArray();
+			array = readHistory(it1.next());
+			
+			visibilityInfo.add(array);
+			
+		}
+		
+		int i=0;
+		while(it2.hasNext()) {
+			
+			VisibilityStatistics stats = new VisibilityStatistics();
+			JSONArray array = new JSONArray();
+			
+			if(period.equals("giornaliera"))
+				array = stats.dailyVisibilityStats(it2.next(),visibilityInfo.get(i));
+			else if(period.equals("settimanale"))
+				array = stats.oneWeekVisibilityStats(it2.next(),visibilityInfo.get(i));
+			else if(period.equals("trisettimanale"))
+				array = stats.threeWeekVisibilityStats(it2.next(),visibilityInfo.get(i));
+			else throw new WrongPeriodException(period+" non è permessa. Devi inserire una stringa tra \"giornaliera\","
+					+ "\"settimanale\" e \"trisettimanale\". ");
+				
+			info.add(array);
+			i++;
+		}
+		
+		return info;
+		
+		
+		
+	}
 	
     
 	
