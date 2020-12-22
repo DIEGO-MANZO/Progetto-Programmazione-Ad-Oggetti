@@ -3,7 +3,7 @@
 <h1 align="center"> WeatherApp </h1>
  
 <p align="center">
-Applicazione che permette di avere previsioni principalmente sulla visibilità di una città ma anche su temperatura massima, minima e percepita. Inoltre sarà possibile generare statistiche e filtrarle in base ai giorni di predizione.
+La nostra applicazione permette di avere previsioni principalmente sulla visibilità di una città ma anche su temperatura massima, minima e percepita. Inoltre sarà possibile generare statistiche e filtrarle in base ai giorni di predizione.
 </p>
 
 ## **Scaletta dei contenuti**
@@ -14,8 +14,6 @@ Applicazione che permette di avere previsioni principalmente sulla visibilità d
 * [Diagrammi UML](#uml)
 * [Rotte](#rotte)
 * [Rotte Aggiuntive](#rotteaggiuntive)
-* [Statistiche](#stats)
-* [Esempio di utilizzo](#edu)
 * [Struttura progetto](#strutt)
 * [Documentazione](#doc)
 * [Autori](#autor)
@@ -34,11 +32,9 @@ git clone https://github.com/FedericaParlapiano/WeatherProva
 ```
 <a name="config"></a>
 ## Configurazione
-Per accedere al nostro servizio è necessario modificare la variabile ```api_key``` in [ServiceImpl.java]
-(Progetto-Programmazione-Ad-Oggetti/WeatherApp/src/main/java/com/project/WeatherApp/service/ServiceImpl.java).
-Si può ottenere una API key gratuitamente accedendo alla pagina https://openweathermap.org/forecast5#name5.
-Infine basterà avviare il web-server eseguendo 
-(Progetto-Programmazione-Ad-Oggetti/WeatherApp/src/main/java/com/project/WeatherApp/WeatherAppApplication.java).
+Per accedere al nostro servizio è necessario modificare la variabile ```api_key``` in [ServiceImpl.java](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/WeatherApp/src/main/java/com/project/WeatherApp/service/ServiceImpl.java).
+Si può ottenere una API key gratuitamente accedendo alla pagina di [OpenWeather](https://openweathermap.org/forecast5#name5).
+Infine basterà avviare il web-server eseguendo [WeatherAppApplication.java](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/WeatherApp/src/main/java/com/project/WeatherApp/WeatherAppApplication.java).
 
 <a name="uml"></a>
 ## Diagrammi UML
@@ -69,10 +65,10 @@ Le rotte definite sono le seguenti:
 
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[1](#1) | ` GET ` | `/visibility?cityName="Ancona"` | *restituisce un JSONArray contenente le informazioni attuali relative alla visibilità e le previsioni relative per i successivi cinque giorni.*
-2 | ` GET ` | `/saveEveryHour?cityName="Fermo"` | *restituisce il path in cui è stato salvato il file contenente le informazioni attuali relative alla visibilità aggiornate ogni ora.*
-3 | ` POST ` | `/statsHistory` | *restituisce le statistiche sulla visibilità con cadenza giornaliera, settimanale o trisettimanale sulla base di uno storico che contiene le informazioni sulla visibilità per 21 giorni (solo alcune città sono ammesse).*
-4 | ` POST ` | `/errors` | *consente di effettuare statistiche sulle previsioni azzeccate, con periodicità che varia da 1 a 5 giorni. Inoltre, in base alla richiesta dell'utente, l'applicazione filtrerà le città che rispettano le condizioni espresse circa la soglia di errore.*
+[1](#1) | ` GET ` | `/visibility?cityName=Ancona` | *restituisce un JSONArray contenente le informazioni attuali relative alla visibilità e le previsioni relative per i successivi cinque giorni.*
+[2](#2) | ` GET ` | `/saveEveryHour?cityName=Fermo` | *restituisce il path in cui è stato salvato il file contenente le informazioni attuali relative alla visibilità aggiornate ogni ora.*
+[3](#3) | ` POST ` | `/statsHistory` | *restituisce le statistiche sulla visibilità con cadenza giornaliera, settimanale o trisettimanale sulla base di uno storico che contiene le informazioni sulla visibilità per 21 giorni (solo alcune città sono ammesse).*
+[4](#4) | ` POST ` | `/errors` | *consente di effettuare statistiche sulle previsioni azzeccate, con periodicità che varia da 1 a 5 giorni. Inoltre, in base alla richiesta dell'utente, l'applicazione filtrerà le città che rispettano le condizioni espresse circa la soglia di errore.*
 
 
 * #### Come può l'utente effettuare richieste? Cosa riceverà in risposta? 
@@ -83,21 +79,26 @@ Innanzitutto non bisogna confondere le richieste di tipo GET con quelle di tipo 
 Ora illustreremo alcuni esempi su cosa dare in richiesta e cosa dovete aspettarvi in risposta.
 
 <a name="1"></a>
-## 1 
+## 1.   /visibility?cityName=Ancona
 
 La prima rotta restituisce un JSONArray di questo tipo, cioè contenente i JSONObject che riportano le informazioni sulla visibilità e la data e l'ora a cui le previsioni si riferiscono. Potete inserire qualsiasi città vogliate (purché esista e sia scritta correttamente, altrimenti riceverete un messaggio di errore).
 
 ![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/postman.png?raw=true)
 
+<a name=2></a>
+## 2.   /saveEveryHour?cityName=Fermo
 
-**2** - La seconda rotta vi permette di salvare le informazioni attuali sulla visibilità della città che volete. Il programma creerà un file col nome "HourlyReportcityName.txt" che si aggiornerà ogni ora. Se è già presente un file con lo stesso nome, il programma lo aprirà e, senza eliminare ciò che è presente, inizierà a scrivere le previsioni. Alla fine riceverete un messaggio di questo tipo:
+La seconda rotta vi permette di salvare le informazioni attuali sulla visibilità della città che volete. Il programma creerà un file col nome "HourlyReportcityName.txt" che si aggiornerà ogni ora. Se è già presente un file con lo stesso nome, il programma lo aprirà e, senza eliminare ciò che è presente, inizierà a scrivere le previsioni. Alla fine riceverete un messaggio di questo tipo:
 
 ```
 Il file è stato salvato in C:/Users/feder/eclipse-workspace/RovaniemiHourlyReport.txt     DA SISTEMARE
 
 ```
 
-**3** - La terza rotta è di tipo POST e richiede un body di questo tipo:
+<a name=3></a>
+## 3.    /statsHistory
+
+La terza rotta è di tipo POST e richiede un body di questo tipo:
 
 ```
 {​​
@@ -190,7 +191,9 @@ Se l'utente inserisce tutto correttamente, riceverà un JSONArray in risposta co
 
 
 
-**4** -  La quarta rotta è una POST e richiede un body di questo tipo:
+<a name=4></a>
+## 4.   /errors
+La quarta rotta è una POST e richiede un body di questo tipo:
   ```
     {​​
          "cities": [
@@ -282,7 +285,7 @@ Inoltre il nostro programma offre funzionalità aggiuntive. Infatti, se l'utente
 
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[5](#5) | ` GET ` | `/restrictCityWeather?cityName="Tolentino` | *restituisce un JSONObject contenente le previsioni su temperatura massima, minima e percepita e sulla visibilità dal giorno della richiesta ai cinque giorni successivi.*
+[5](#5) | ` GET ` | `/restrictCityWeather?cityName=Tolentino` | *restituisce un JSONObject contenente le previsioni su temperatura massima, minima e percepita e sulla visibilità dal giorno della richiesta ai cinque giorni successivi.*
 [6](#6) | ` POST ` | `/stats` | *restituisce un JSONObject contenente le statistiche di un'unica città sui parametri indicati in ingresso su 1 o 5 giorni.*
 [7](#7) | ` POST ` | `/filters` | *restituisce il JSONArray che contiene tanti JSONOject quante sono le città specificate nella richiesta(si veda dopo) ogni JSONObject contiene il nome della  città e la media del parametro indicato nella richiesta. In più il JSONArray contiene un altro JSONObject al cui interno è contenuta la più alta/bassa media a seconda del valore indicato in ingresso.*
 
@@ -290,7 +293,7 @@ N° | Tipo | Rotta | Descrizione
 * #### Come può l'utente effettuare richieste? Cosa riceverà in risposta? 
 
 <a name=5></a>
-## 5
+## 5.   /restrictCityWeather?cityName=Tolentino
 
           ```
           localhost:8080/restrictCityWeather?cityName=Tolentino
@@ -357,7 +360,7 @@ La risposta è un JSONObject di questo tipo:
 ```
 
 <a name=6></a>
-## 6
+## 6.   /stats
 
 Questa rotta di tipo POST richiede un body di questo tipo:
 
@@ -401,7 +404,7 @@ Se l'utente inserisce tutto correttamente, otterrà un JSONObject di questo tipo
 
 
 <a name=7></a>
-## 7
+## 7.    /filters
 
 Questa rotta di tipo POST richiede un body di questo tipo:
 
@@ -466,7 +469,50 @@ Questa rotta può generare le seguenti ***eccezioni***:
    
      ```
   
+  Se l'utente inserisce tutto correttamente, otterrà un JSONOArray di questo tipo:
+ 
+ ```
+ [
 
+    {​​
+
+        "feels_like_average:": 268.0466666666666,
+
+        "cityName:": "Roma"
+
+    }​​,
+
+    {​​
+
+        "feels_like_average:": 270.74,
+
+        "cityName:": "New York"
+
+    }​​,
+
+    {​​
+
+        "feels_like_average:": 280.3766666666666,
+
+        "cityName:": "Milano"
+
+    }​​,
+
+    {​​
+
+        "max average": 280.3766666666666,
+
+        "City with max average": [
+
+            "Milano"
+
+        ]
+
+    }​​
+
+]
+
+ ```
 
 
 
