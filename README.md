@@ -64,6 +64,14 @@ Infine basterà avviare il web-server eseguendo [WeatherAppApplication.java](htt
 
 ![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/exception.jpg)
 
+* com.project.WeatherApp.utils
+
+![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/utils.jpg)
+
+* com.project.WeatherApp.utils.error
+
+![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/error.jpg)
+
 
 
 ![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Sequence%20Diagram.jpg?raw=true)
