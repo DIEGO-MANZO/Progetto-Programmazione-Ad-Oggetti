@@ -35,25 +35,25 @@ git clone https://github.com/FedericaParlapiano/WeatherProva
 ## Configurazione
 Per accedere al nostro servizio è necessario modificare la variabile ```api_key``` in [ServiceImpl.java]
 (Progetto-Programmazione-Ad-Oggetti/WeatherApp/src/main/java/com/project/WeatherApp/service/ServiceImpl.java).
-Si può ottenere una API key gratuitamente accedendo alla pagina (https://openweathermap.org/forecast5#name5).
+Si può ottenere una API key gratuitamente accedendo alla pagina https://openweathermap.org/forecast5#name5.
 Infine basterà avviare il web-server eseguendo 
 (Progetto-Programmazione-Ad-Oggetti/WeatherApp/src/main/java/com/project/WeatherApp/WeatherAppApplication.java).
 
 <a name="uml"></a>
 ## Diagrammi UML
-![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Use%20Case%20Diagram.jpg)
+![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Use%20Case%20Diagram.jpg?raw=true)
 *Use Case Diagram*
 ***
 
 
 
-![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Class%20Diagram.jpg)
+![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Class%20Diagram.jpg?raw=true)
 *Class Diagram*
 ***
 
 
 
-![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Sequence%20Diagram.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Sequence%20Diagram.jpg?raw=true)
 *Sequence Diagram* 
 ***
 
@@ -83,11 +83,109 @@ Ora illustreremo alcuni esempi su cosa dare in richiesta e cosa dovete aspettarv
 
 1 - La prima rotta restituisce un JSONArray di questo tipo, cioè contenente i JSONObject che riportano le informazioni sulla visibilità e la data e l'ora a cui le previsioni si riferiscono. Potete inserire qualsiasi città vogliate (purché esista e sia scritta correttamente, altrimenti riceverete un messaggio di errore).
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/postman.png)
+![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/postman.png?raw=true)
 
 
 2 - La seconda rotta vi permette di salvare le informazioni attuali sulla visibilità della città che volete. Il programma creerà un file col nome "HourlyReportcityName.txt" che si aggiornerà ogni ora. Se è già presente un file con lo stesso nome, il programma lo aprirà e, senza eliminare ciò che è presente, inizierà a scrivere le previsioni. Alla fine riceverete un messaggio di questo tipo:
 
+```
+Il file è stato salvato in C:/Users/feder/eclipse-workspace/RovaniemiHourlyReport.txt     DA SISTEMARE
+
+```
+
+3 - La terza rotta è di tipo POST e richiede un body di questo tipo:
+
+```
+{​​
+
+    "cities": [
+
+      {​​
+
+        "name": "Ancona"
+
+      }​​,
+
+      {​​
+
+        "name": "Campobasso"
+
+      }​​
+
+    ],
+
+    "period": "settimanale"
+
+}​​
+```
+
+- **cities** è il JSONArray che contiene i nomi delle città di cui si vuole fare statistica. Le città ammesse sono Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino. Si può inserire una loro combinazione.
+- **period** rappresenta la periodicità con cui si può fare la statistica. Si può scegliere tra "giornaliera", "settimanale" o "trisettimanale".
+
+Questa rotta può generare le seguenti ***eccezioni***: 
+
+   * Nel caso in cui l'utente dimenticasse di inserire il nome della città viene generata un'eccezione del tipo ***EmptyStringException*** che restituisce un messaggio di questo tipo:
+   
+    ```
+     Hai dimenticato di inserire la città...
+    ```
+
+  * Nel caso in cui l'utente inserisca una città non ammessa viene generata un'eccezione del tipo ***CityNotFoundException*** che restituisce un messaggio di questo tipo:
+
+   ```
+    New York non è presente nello storico. Puoi scegliere tra: "Ancona", "Campobasso", "Macerata", "Roma", "San Martino in Pensilis" e "Tolentino".
+   ```
+
+   * Invece se viene inserito un periodo diverso da quelli sopra citati viene generata un'eccezione del tipo ***WrongPeriodException*** che restituisce un messaggio di questo tipo:
+
+   ```
+    mensile non è permessa. Devi inserire una stringa tra "giornaliera","settimanale" e "trisettimanale".
+   ```
+
+Se l'utente inserisce tutto correttamente, riceverà un JSONArray in risposta come segue
+
+   ```
+[
+
+    [
+
+        "Ancona",
+
+        {​​
+
+            "average": 9779,
+
+            "week": 1,
+
+            "min": 4233,
+
+            "max": 10000,
+
+            "variance": 1
+
+        }​​,
+
+        {​​
+
+            "average": 9839,
+
+            "week": 2,
+
+            "min": 4233,
+
+            "max": 10000,
+
+            "variance": 1
+
+        }​​,
+      
+      ...
+   ]
+   
+   ```
+
+
+  
 
 
 Inoltre il nostro programma offre funzionalità aggiuntive. Infatti, se l'utente vuole conoscere le statistiche di una qualsiasi città che non è presente nello storico, può farlo ma limitatamente a un giorno o a cinque giorni. Oltre alle informazioni sulla visibilità, sarà possibile richiedere anche previsioni e statistiche su temperatura massima, minima e percepita, attraverso le seguenti rotte:
@@ -97,8 +195,6 @@ N° | Tipo | Rotta | Descrizione
 5 | ` GET ` | `/restrictCityWeather?cityName="Tolentino` | *restituisce un JSONObject contenente le previsioni dal giorno della richiesta ai tre giorni.*
 6 | ` POST ` | `/stats` | *restituisce un JSONObject contenente le statistiche di un'unica città sui parametri indicati in ingresso su 1 o 5 giorni.*
 7 | ` POST ` | `/filters` | *restituisce il JSONArray che contiene tanti JSONOject quante sono le città specificate nella richiesta(si veda dopo) ogni JSONObject contiene il nome della  città e la media del parametro indicato nella richiesta. In più il JSONArray contine un altro JSONObject al cui interno è contenuta la più alta/bassa media a seconda del valore indicato in ingresso.*
-
-
 
 
 
