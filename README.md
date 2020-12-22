@@ -15,7 +15,6 @@ La nostra applicazione permette di avere previsioni principalmente sulla visibil
 * [Rotte](#rotte)
 * [Rotte Aggiuntive](#rotteaggiuntive)
 * [Test](#test)
-* [Struttura progetto](#strutt)
 * [Documentazione](#doc)
 * [Autori](#autor)
 
