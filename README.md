@@ -41,19 +41,19 @@ Infine basterà avviare il web-server eseguendo
 
 <a name="uml"></a>
 ## Diagrammi UML
-![alt text](https://raw.githubusercontent.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Use%20Case%20Diagram.jpg)
+![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Use%20Case%20Diagram.jpg)
 *Use Case Diagram*
 ***
 
 
 
-![alt text](https://raw.githubusercontent.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Class%20Diagram.jpg)
+![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Class%20Diagram.jpg)
 *Class Diagram*
 ***
 
 
 
-![alt_text](https://raw.githubusercontent.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Sequence%20Diagram.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Sequence%20Diagram.jpg)
 *Sequence Diagram* 
 ***
 
@@ -98,10 +98,8 @@ Inoltre il nostro programma offre funzionalità aggiuntive. Infatti, se l'utente
 
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-5 |` GET ` | `/restrictCityWeather?cityName="Tolentino"` | *restituisce un JSONObject contenente le previsioni dal giorno della richiesta ai tre giorni.*
-
-6 |` POST ` | `/stats` | *restituisce un JSONObject contenente le statistiche di un'unica città sui parametri indicati in ingresso su 1 o 5 giorni.*
-
+5 | ` GET ` | `/restrictCityWeather?cityName="Tolentino` | *restituisce un JSONObject contenente le previsioni dal giorno della richiesta ai tre giorni.*
+6 | ` POST ` | `/stats` | *restituisce un JSONObject contenente le statistiche di un'unica città sui parametri indicati in ingresso su 1 o 5 giorni.*
 7 | ` POST ` | `/filters` | *restituisce il JSONArray che contiene tanti JSONOject quante sono le città specificate nella richiesta(si veda dopo) ogni JSONObject contiene il nome della  città e la media del parametro indicato nella richiesta. In più il JSONArray contine un altro JSONObject al cui interno è contenuta la più alta/bassa media a seconda del valore indicato in ingresso.*
 
 
