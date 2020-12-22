@@ -190,17 +190,26 @@ Se l'utente inserisce tutto correttamente, riceverà un JSONArray in risposta co
   ```
     {​​
          "cities": [
-            {​​
+           
+           {​​
+             
              "name": "Tolentino"
+            
             }​​,
-            {​​
+           
+           {​​
+            
             "name": "San Martino in Pensilis"
-            }​​,
+           
+           }​​,
 
         ],
-        "error": 1,
-        "value": "$gt",
-        "period": 3
+       
+       "error": 1,
+       
+       "value": "$gt",
+       
+       "period": 3
 }​​
 
   ```
@@ -210,6 +219,22 @@ Se l'utente inserisce tutto correttamente, riceverà un JSONArray in risposta co
   - **value** serve per indicare se l'utente voglia ottenere la lista delle città che hanno una soglia di errore maggiore, minore o uguale ad error. Può inserire rispettivamente **$gt**, **$lt** o **=**.
   - **period** indica i giorni di predizioni su cui calcolare la soglia di errore. L'utente può inserire un numero intero che va da 1 a 5 (inclusi). 
 
+
+Questa rotta può generare le seguenti ***eccezioni***: 
+
+   * Nel caso in cui l'utente dimenticasse di inserire il nome della città viene generata un'eccezione del tipo ***EmptyStringException*** che restituisce un messaggio di questo tipo:
+   
+    ```
+     Hai dimenticato di inserire la città...
+    ```
+
+  * Nel caso in cui l'utente inserisca una città non ammessa viene generata un'eccezione del tipo ***CityNotFoundException*** che restituisce un messaggio di questo tipo:
+
+   ```
+    Agrigento non è presente nello storico. Puoi scegliere tra: "Ancona", "Campobasso", "Macerata", "Roma", "San Martino in Pensilis" e "Tolentino".
+    
+   ```
+ 
   
 
 
