@@ -14,6 +14,7 @@ La nostra applicazione permette di avere previsioni principalmente sulla visibil
 * [Diagrammi UML](#uml)
 * [Rotte](#rotte)
 * [Rotte Aggiuntive](#rotteaggiuntive)
+* [Test](#test)
 * [Struttura progetto](#strutt)
 * [Documentazione](#doc)
 * [Autori](#autor)
@@ -38,15 +39,18 @@ Infine basterà avviare il web-server eseguendo [WeatherAppApplication.java](htt
 
 <a name="uml"></a>
 ## Diagrammi UML
-![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Use%20Case%20Diagram.jpg?raw=true)
+
 *Use Case Diagram*
+
+![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Use%20Case%20Diagram.jpg?raw=true)
+
 ***
 
-
+*Class Diagram*
 
 ![alt text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Class%20Diagram.jpg?raw=true)
-*Class Diagram*
-***
+
+
 
 * com.project.WeatherApp.controller
 
@@ -73,9 +77,19 @@ Infine basterà avviare il web-server eseguendo [WeatherAppApplication.java](htt
 ![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/error.jpg)
 
 
+***
 
-![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Progetto%20Sequence%20Diagram.jpg?raw=true)
-*Sequence Diagram* 
+
+*Sequance Diagram (parte 1)*
+
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/History%20Sequence%20Diagram%20part1.jpg?raw=true)
+
+
+*Sequance Diagram (parte 2)*
+
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Sequence%20Diagram%20part2.jpg?raw=true)
+
+
 ***
 
 
@@ -538,6 +552,12 @@ Questa rotta può generare le seguenti ***eccezioni***:
 
  ```
 
+<a name="test"></a>
+## Test
+
+Abbiamo implementato i seguenti [test](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/tree/master/WeatherApp/src/test/java/com/project/WeatherApp) per verificare il corretto funzionamento di alcuni metodi e alcune eccezioni
+
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Test.jpg)
 
 
 
