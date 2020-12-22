@@ -10,7 +10,6 @@ import org.json.JSONObject;
  * @author Federica Parlapiano
  * @author Francesca Palazzetti
  * 
- *
  */
 public class VisibilityStatistics {
 
