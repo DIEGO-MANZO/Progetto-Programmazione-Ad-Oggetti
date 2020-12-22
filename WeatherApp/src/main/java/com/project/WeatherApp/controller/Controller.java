@@ -219,10 +219,18 @@ public class Controller {
         try {
         	return new ResponseEntity<>(service.readVisibilityHistory(cities,period).toString(),HttpStatus.OK);
         }
+        catch (EmptyStringException e) {
+			return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+		}
+        catch (CityNotFoundException e) {
+			return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+		}
         catch (WrongPeriodException e) {
         	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
         }
 		
+        
+        
 	}
 	
 	
@@ -320,8 +328,8 @@ public class Controller {
      *          "name": "Ancona"
      *        }
      *      ],
-     *     "param": "visibility",
-     *     "error": "0.5",
+     *     "error": 0.5,
+     *     "value": "$gt"
      *     "period": 3
      *  }
 	 * 

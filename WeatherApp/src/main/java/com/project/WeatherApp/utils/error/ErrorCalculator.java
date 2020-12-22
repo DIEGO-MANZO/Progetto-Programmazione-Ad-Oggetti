@@ -82,8 +82,12 @@ public class ErrorCalculator extends FindDay {
 		    	dataInizio = app.getJSONObject(startPosition).getString("data");
 		    
 		    }
-		  
+		  try {
 		    errortot/=contatore;
+		  }
+		  catch (ArithmeticException e) {
+			  e.printStackTrace();
+		  }
             JSONObject errorInfo = new JSONObject();
             errorInfo.put("error AME", errortot);
             errorInfo.put("previsioni azzeccate su "+contatore, azzeccate);

@@ -5,12 +5,14 @@ package com.project.WeatherApp.service;
 
 
 import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -205,12 +207,15 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
         
 		String nomeFile = cityName+"_"+today;
         
-		String path = "C:/Users/feder/eclipse-workspace/"+nomeFile+".txt";
+		System.out.println(System.getProperty("user.dir"));
+		
+		String path = System.getProperty("user.dir")+nomeFile+".txt";
         
 		try{
 			
 			PrintWriter file_output = new PrintWriter(new BufferedWriter(new FileWriter(path)));
-    
+			
+			
 			file_output.println(obj.toString());
 			file_output.close();
 			
@@ -231,7 +236,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	 */
 	public String saveEveryHour(String cityName) {
 		
-		String path = "C:/Users/feder/eclipse-workspace/"+cityName+"HourlyReport.txt";
+		String path = System.getProperty("user.dir") + "/" + cityName + "HourlyReport.txt";
 		
 		File file = new File(path);
 		
@@ -278,11 +283,14 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	 * @throws IOException se si verificano errori di input da file.
 	 */
 	
-	public JSONArray readHistory(String name) throws IOException {
+	public JSONArray readHistory(String name, boolean flag) throws IOException {
 		
+		String path = "";
 		
-		
-		String path = "C:/Users/feder/eclipse-workspace/History/" +name+".txt";
+		if(flag) {
+			path = System.getProperty("user.dir") + "/error/" + name +".txt";
+		}
+		else path = System.getProperty("user.dir") + "/visibility/" + name +".txt";
 		
 		String everything;
 			
@@ -338,12 +346,10 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			ArrayList<JSONArray> visibilityArray = new ArrayList<JSONArray>();
 			ArrayList<JSONObject> errors = new ArrayList<JSONObject>();
 			
-			int p=0;
-			
 			while(it.hasNext()) {
 				
 				JSONArray array = new JSONArray();
-				array = readHistory(it.next());
+				array = readHistory(it.next(),true);
 				JSONArray visibilityInfo = new JSONArray();
 				
 				for(int i=0; i<array.length(); i++) {
@@ -375,10 +381,8 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 					
 					
 				}
-				System.out.println(cities.get(p));
-				System.out.println(visibilityInfo);
+				
 				visibilityArray.add(visibilityInfo);
-				p++;
 				
 			}
 			
@@ -414,14 +418,14 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 			if(cities.get(i).isEmpty())
 				throw new EmptyStringException ("Hai dimenticato di inserire la città...");
 			else if(!(cities.get(i).equals("Ancona") || cities.get(i).equals("Campobasso") || cities.get(i).equals("Macerata") || cities.get(i).equals("Roma") || cities.get(i).equals("San Martino in Pensilis") || cities.get(i).equals("Tolentino")))
-				throw new CityNotFoundException("Città non trovata nello storico");
+				throw new CityNotFoundException(cities.get(i) + " non è presente nello storico. Puoi scegliere tra: \"Ancona\", \"Campobasso\", \"Macerata\", \"Roma\", \"San Martino in Pensilis\" e \"Tolentino\".");
 		}
 		
 		
 		while(it1.hasNext()) {
 			
 			JSONArray array = new JSONArray();
-			array = readHistory(it1.next());
+			array = readHistory(it1.next(),false);
 			
 			visibilityInfo.add(array);
 			
