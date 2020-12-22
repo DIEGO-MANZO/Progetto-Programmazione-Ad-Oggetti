@@ -271,7 +271,12 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 	}
 	
-	
+	/**
+	 * Questo metodo si occupa della lettura dello storico della città passata in ingresso.
+	 * @param name è il nome della città di cui si vuole leggere lo storico.
+	 * @return il JSONArray che contiene tutte le informazioni sulla visibilità.
+	 * @throws IOException se si verificano errori di input da file.
+	 */
 	
 	public JSONArray readHistory(String name) throws IOException {
 		
