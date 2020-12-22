@@ -190,10 +190,7 @@ public class Controller {
 	 * statistica. Le città ammesse sono solo Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino.
 	 * 
 	 * @param è un JSONObject come sopra indicato.
-	 * @return il JSONArray che contiene tanti JSONObject quante sono le città specificate nella richiesta
-	 *         ognuno dei quali contiene il nome della città e la media del "param" indicato. In più il JSONArray contiene
-	 *         un ultimo JSONObject al cui interno è contenuta la massima o minima media a seconda del valore indicato.
-	 * @throws WrongPeriodException se il numero immesso è errato.
+	 * @return le statistiche di ciascuna città con periodicità specificata dall'utente.
 	 * @throws CityNotFoundException se la città immessa non è una tra quelle indicate sopra.
 	 * @throws EmptyStringException se una delle stringhe immesse è vuota.
 	 * @throws WrongValueException se viene inserita una stringa errata per value.
