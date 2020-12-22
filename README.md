@@ -70,21 +70,39 @@ N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
 1 | ` GET ` | `/visibility?cityName="Ancona"` | *restituisce un JSONArray contenente le informazioni attuali relative alla visibilità e le previsioni relative per i successivi cinque giorni.*
 2 | ` GET ` | `/saveEveryHour?cityName="Fermo"` | *restituisce il path in cui è stato salvato il file contenente le informazioni attuali relative alla visibilità aggiornate ogni ora.*
-3 | ` GET ` | `/todayAverage?cityName="Tolentino"` | *restituisce un JSONObject contenente la media della temperatura massima, minima, percepita e la media, la massima, la minima e la varianza di visibilità del giorno corrente.*
-4 | ` GET ` | `/fiveDayAverage?cityName="San Martino in Pensilis"` | *restituisce un JSONObject contenente la media della temperatura massima, minima, percepita e la media, la massima, la minima e la varianza di visibilità relative ai cinque giorni successivi.*
-5 | ` POST ` | `/filters` | *restituisce il JSONArray che contiene tanti JSONOject quante sono le città specificate nella richiesta(vedi dopo) ogni JSONObject contine il nome della  città e la media del parametro indicato nella richiesta. In più il JSONArray contine un altro JSONObject al cui interno è contenuta la più alta/bassa media a seconda del valore indicato in ingresso.*
-6 | ` POST ` | `/filtersHistory` | *filtra le statistiche sulla visibilità in base ad una soglia di errore.*
+3 | ` POST ` | `/statsHistory` | *restituisce le statistiche sulla visibilità con cadenza giornaliera, settimanale o trisettimanale sulla base di uno storico che contiene le informazioni sulla visibilità per 21 giorni (solo alcune città sono ammesse).*
+4 | ` POST ` | `/errors` | *consente di effettuare statistiche sulle previsioni azzeccate, con periodicità che varia da 1 a 5 giorni. Inoltre, in base alla richiesta dell'utente, l'applicazione filtrerà le città che rispettano le condizioni espresse circa la soglia di errore.*
 
-1 -restituisce un JSONArray di questo tipo 
+
+* #### Come può l'utente effettuare richieste? Cosa riceverà in risposta? 
+
+Basta avviare il programma come applicazione SpringBoot, assicurarsi di avere Postman (o simili) e seguire le istruzioni che stiamo per darvi.
+
+Innanzitutto non bisogna confondere le richieste di tipo GET con quelle di tipo POST, altrimenti riceverà un messaggio di errore.
+Ora illustreremo alcuni esempi su cosa dare in richiesta e cosa dovete aspettarvi in risposta.
+
+1 - La prima rotta restituisce un JSONArray di questo tipo, cioè contenente i JSONObject che riportano le informazioni sulla visibilità e la data e l'ora a cui le previsioni si riferiscono. Potete inserire qualsiasi città vogliate (purché esista e sia scritta correttamente, altrimenti riceverete un messaggio di errore).
+
 ![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/1(1).png)
+
+...
 
 ![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/1(2).png)
 
 
+2 - La seconda rotta vi permette di salvare le informazioni attuali sulla visibilità della città che volete. Il programma creerà un file col nome "HourlyReportcityName.txt" che si aggiornerà ogni ora. Se è già presente un file con lo stesso nome, il programma lo aprirà e, senza eliminare ciò che è presente, inizierà a scrivere le previsioni. Alla fine riceverete un messaggio di questo tipo:
 
 
 
+Inoltre il nostro programma offre funzionalità aggiuntive. Infatti, se l'utente vuole conoscere le statistiche di una qualsiasi città che non è presente nello storico, può farlo ma limitatamente a un giorno o a cinque giorni. Oltre alle informazioni sulla visibilità, sarà possibile richiedere anche previsioni e statistiche su temperatura massima, minima e percepita, attraverso le seguenti rotte:
 
+N° | Tipo | Rotta | Descrizione
+----- | ------------ | -------------------- | ----------------------
+5 |` GET ` | `/restrictCityWeather?cityName="Tolentino"` | *restituisce un JSONObject contenente le previsioni dal giorno della richiesta ai tre giorni.*
+
+6 |` POST ` | `/stats` | *restituisce un JSONObject contenente le statistiche di un'unica città sui parametri indicati in ingresso su 1 o 5 giorni.*
+
+7 | ` POST ` | `/filters` | *restituisce il JSONArray che contiene tanti JSONOject quante sono le città specificate nella richiesta(si veda dopo) ogni JSONObject contiene il nome della  città e la media del parametro indicato nella richiesta. In più il JSONArray contine un altro JSONObject al cui interno è contenuta la più alta/bassa media a seconda del valore indicato in ingresso.*
 
 
 
