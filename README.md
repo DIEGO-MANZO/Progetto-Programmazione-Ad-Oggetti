@@ -83,11 +83,7 @@ Ora illustreremo alcuni esempi su cosa dare in richiesta e cosa dovete aspettarv
 
 1 - La prima rotta restituisce un JSONArray di questo tipo, cioè contenente i JSONObject che riportano le informazioni sulla visibilità e la data e l'ora a cui le previsioni si riferiscono. Potete inserire qualsiasi città vogliate (purché esista e sia scritta correttamente, altrimenti riceverete un messaggio di errore).
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/1(1).png)
-
-...
-
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/1(2).png)
+![alt_text](https://github.com/FedericaParlapiano/WeatherProva/Immagini/postman.png)
 
 
 2 - La seconda rotta vi permette di salvare le informazioni attuali sulla visibilità della città che volete. Il programma creerà un file col nome "HourlyReportcityName.txt" che si aggiornerà ogni ora. Se è già presente un file con lo stesso nome, il programma lo aprirà e, senza eliminare ciò che è presente, inizierà a scrivere le previsioni. Alla fine riceverete un messaggio di questo tipo:
