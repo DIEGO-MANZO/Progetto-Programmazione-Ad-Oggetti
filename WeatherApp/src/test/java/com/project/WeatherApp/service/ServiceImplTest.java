@@ -21,7 +21,7 @@ import com.project.WeatherApp.exception.EmptyStringException;
  * @author Federica Parlapiano
  * @author Francesca Palazzetti
  */
-class ServiceImpTest {
+class ServiceImplTest {
 
 	private ServiceImpl service;
     private ArrayList<String> cities;

@@ -16,7 +16,7 @@ import com.project.WeatherApp.model.City;
 import com.project.WeatherApp.model.Coordinates;
 import com.project.WeatherApp.model.Weather;
 
-/** Questa classe testa i metodi di ServiceImpl.
+/** Questa classe testa il metodo di ToJSON.
  * @author Federica Parlapiano
  * @author Francesca Palazzetti
  */
