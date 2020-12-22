@@ -16,10 +16,15 @@ import com.project.WeatherApp.service.ServiceImpl;
 @SpringBootApplication(scanBasePackages={"com.project.WeatherApp.controller", "com.project.WeatherApp.service","com.project.WeatherApp.model"})
 
 public class WeatherAppApplication {
-
+	
 	public static void main(String[] args) {
+		
 		SpringApplication.run(WeatherAppApplication.class, args);
 		
+		/**
+		 * Una volta avviato il programma, salverà su un file ogni ora la visibilità attuale delle città sotto indicate 
+		 * richiamando il metodo di ServiceImpl.
+		 */
 		ServiceImpl service = new ServiceImpl();
 		service.saveEveryHour("Ancona");
 		service.saveEveryHour("Campobasso");
