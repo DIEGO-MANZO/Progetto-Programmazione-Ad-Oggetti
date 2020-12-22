@@ -185,6 +185,31 @@ Se l'utente inserisce tutto correttamente, riceverà un JSONArray in risposta co
    ```
 
 
+
+4 - La quarta rotta è una POST e richiede un body di questo tipo:
+  ```
+    {​​
+         "cities": [
+            {​​
+             "name": "Tolentino"
+            }​​,
+            {​​
+            "name": "San Martino in Pensilis"
+            }​​,
+
+        ],
+        "error": 1,
+        "value": "$gt",
+        "period": 3
+}​​
+
+  ```
+  
+  - **cities** è il JSONArray che contiene i nomi delle città di cui si vuole fare statistica. Le città ammesse sono Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino. Si può inserire una loro combinazione.
+  - **error** rappresenta la soglia di errore con cui vuole filtrare le previsioni l'utente
+  - **value** serve per indicare se l'utente voglia ottenere la lista delle città che hanno una soglia di errore maggiore, minore o uguale ad error. Può inserire rispettivamente **$gt**, **$lt** o **=**.
+  - **period** indica i giorni di predizioni su cui calcolare la soglia di errore. L'utente può inserire un numero intero che va da 1 a 5 (inclusi). 
+
   
 
 
