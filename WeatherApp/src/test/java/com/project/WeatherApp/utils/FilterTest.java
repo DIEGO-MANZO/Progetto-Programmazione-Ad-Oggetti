@@ -34,7 +34,6 @@ class FilterTest {
 		cities = new ArrayList<String>();
 	}
 
-
 	/**
      * Serve per distruggere ciò che è stato inizializzato dal metodo setUp.
      * throws java.lang.Exception
