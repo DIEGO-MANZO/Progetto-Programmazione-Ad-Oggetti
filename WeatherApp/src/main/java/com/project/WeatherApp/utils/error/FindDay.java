@@ -67,7 +67,6 @@ public class FindDay {
 			
 			date = obje.getString("data");
 			
-			
 			firstDate="";
 			firstDate += date.charAt(8);
 			firstDate += date.charAt(9);
