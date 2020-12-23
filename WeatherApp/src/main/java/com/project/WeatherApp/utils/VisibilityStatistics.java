@@ -108,7 +108,6 @@ public class VisibilityStatistics {
 					JSONObject dayInfo = new JSONObject();
 					dayInfo = oneDay.getJSONObject(k);
 					average += dayInfo.getInt("average");
-					System.out.println(average);
 					if(dayInfo.getInt("max")>max)
 						max = dayInfo.getInt("max");
 					if(dayInfo.getInt("min")<min)
