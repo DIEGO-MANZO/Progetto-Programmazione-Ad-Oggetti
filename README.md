@@ -53,27 +53,27 @@ Infine basterà avviare il web-server eseguendo [WeatherAppApplication.java](htt
 
 * com.project.WeatherApp.controller
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/Controller.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Controller.jpg?raw=true)
 
 * com.project.WeatherApp.model
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/Model.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/Model.jpg?raw=true)
 
 * com.project.WeatherApp.service
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/service.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/service.jpg?raw=true)
 
 * com.project.WeatherApp.exception
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/exception.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/exception.jpg?raw=true)
 
 * com.project.WeatherApp.utils
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/utils.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/utils.jpg?raw=true)
 
 * com.project.WeatherApp.utils.error
 
-![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/error.jpg)
+![alt_text](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/blob/master/UML/error.jpg?raw=true)
 
 
 ***
@@ -116,14 +116,14 @@ Innanzitutto non bisogna confondere le richieste di tipo GET con quelle di tipo 
 Ora illustreremo alcuni esempi su cosa dare in richiesta e cosa dovete aspettarvi in risposta.
 
 <a name="1"></a>
-## 1.   /visibility?cityName=Ancona
+## 1.   /visibility?cityName=
 
 La prima rotta restituisce un JSONArray di questo tipo, cioè contenente i JSONObject che riportano le informazioni sulla visibilità e la data e l'ora a cui le previsioni si riferiscono. Potete inserire qualsiasi città vogliate (purché esista e sia scritta correttamente, altrimenti riceverete un messaggio di errore).
 
 ![alt_text](https://github.com/FedericaParlapiano/WeatherProva/blob/master/Immagini/postman.png?raw=true)
 
 <a name=2></a>
-## 2.   /saveEveryHour?cityName=Fermo
+## 2.   /saveEveryHour?cityName=
 
 La seconda rotta vi permette di salvare le informazioni attuali sulla visibilità della città che volete. Il programma creerà un file col nome "HourlyReportcityName.txt" che si aggiornerà ogni ora. Se è già presente un file con lo stesso nome, il programma lo aprirà e, senza eliminare ciò che è presente, inizierà a scrivere le previsioni. Alla fine riceverete un messaggio di questo tipo:
 
@@ -168,9 +168,10 @@ Questa rotta può generare le seguenti ***eccezioni***:
 
    * Nel caso in cui l'utente dimenticasse di inserire il nome della città viene generata un'eccezione del tipo ***EmptyStringException*** che restituisce un messaggio di questo tipo:
    
-    ```
-     Hai dimenticato di inserire la città...
-    ```
+```
+Hai dimenticato di inserire la città...
+     
+```
 
   * Nel caso in cui l'utente inserisca una città non ammessa viene generata un'eccezione del tipo ***CityNotFoundException*** che restituisce un messaggio di questo tipo:
 
@@ -267,10 +268,11 @@ La quarta rotta è una POST e richiede un body di questo tipo:
 Questa rotta può generare le seguenti ***eccezioni***: 
 
    * Nel caso in cui l'utente dimentichi di inserire il nome della città viene generata un'eccezione del tipo ***EmptyStringException*** che restituisce un messaggio di questo tipo:
-   
-    ```
-     Hai dimenticato di inserire la città...
-    ```
+ 
+```
+Hai dimenticato di inserire la città...
+     
+```
 
   * Nel caso in cui l'utente inserisca una città non ammessa viene generata un'eccezione del tipo ***CityNotFoundException*** che restituisce un messaggio di questo tipo:
 
@@ -330,12 +332,12 @@ N° | Tipo | Rotta | Descrizione
 * #### Come può l'utente effettuare richieste? Cosa riceverà in risposta? 
 
 <a name=5></a>
-## 5.   /restrictCityWeather?cityName=Tolentino
+## 5.   /restrictCityWeather?cityName=
 
-          ```
-          localhost:8080/restrictCityWeather?cityName=Tolentino
-          
-          ```
+```
+localhost:8080/restrictCityWeather?cityName=Tolentino
+
+```
 Questa rotta restituisce le previsioni meteo della città indicata come parametro dal giorno in cui si fa la richiesta ai 5 giorni successivi. Le previsioni meteo comprendono:
 
           - temperatura massima
@@ -562,7 +564,7 @@ Abbiamo implementato i seguenti [test](https://github.com/FedericaParlapiano/Pro
 
 <a name="doc"></a>
 ## Documentazione
-Il codice java è interamente documentato in [Javadoc].
+Il codice java è interamente documentato in [Javadoc](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/tree/master/WeatherApp/doc).
 
 <a name="autor"></a>
 ### Autori
