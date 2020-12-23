@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.project.WeatherApp.utils;
 
 import org.json.JSONArray;
@@ -85,7 +82,7 @@ public class VisibilityStatistics {
 	 * Richiama il metodo che va a calcolare la statistica giorno per giorno.
 	 * @param city rappresenta il nome della città di cui si vuole fare statistica.
 	 * @param visibility contiene tutte le informazioni sulla visibilità presenti nello storico.
-	 * @return un JSONArray con le statistiche giorno per giorno.
+	 * @return un JSONArray con le statistiche settimana per settimana.
 	 */
 	public JSONArray  oneWeekVisibilityStats(String city, JSONArray visibility) {
 		
@@ -132,7 +129,6 @@ public class VisibilityStatistics {
 			
 			stats.put(weekInfo);
 			
-			System.out.println(stats);
 			
 			week++;
 			i += 7;
@@ -149,7 +145,7 @@ public class VisibilityStatistics {
 	 * Richiama il metodo che va a calcolare la statistica settimana per settimana.
 	 * @param city rappresenta il nome della città di cui si vuole fare statistica.
 	 * @param visibility contiene tutte le informazioni sulla visibilità presenti nello storico.
-	 * @return un JSONArray con le statistiche giorno per giorno.
+	 * @return un JSONArray con le statistiche per tre settimane.
 	 */
 	public JSONArray  threeWeekVisibilityStats(String city, JSONArray visibility) {
 		

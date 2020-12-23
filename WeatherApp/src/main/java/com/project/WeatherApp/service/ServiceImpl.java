@@ -1,8 +1,4 @@
-/**
- * 
- */
 package com.project.WeatherApp.service;
-
 
 import java.io.BufferedReader;
 
@@ -26,11 +22,10 @@ import org.springframework.stereotype.Service;
 import com.project.WeatherApp.exception.CityNotFoundException;
 import com.project.WeatherApp.exception.EmptyStringException;
 import com.project.WeatherApp.exception.WrongPeriodException;
+import com.project.WeatherApp.exception.WrongValueException;
 import com.project.WeatherApp.model.*;
 import com.project.WeatherApp.utils.VisibilityStatistics;
 import com.project.WeatherApp.utils.error.ErrorCalculator;
-
-
 
 /** Questa classe è l'implementazione dell'interfaccia Service.
  * Contiene i metodi che vengono utilizzati dal controller.
@@ -66,8 +61,10 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		return obj;
 		
 	}
+	
+	
 	/**
-	 * Questo metodo utilizza getCityWeather per andare prendere le previsioni sulla visibilità della città richiesta.
+	 * Questo metodo utilizza getCityWeather per andare a prendere le previsioni sulla visibilità della città richiesta.
 	 * @param è il nome della città di cui si vuole conoscere la visibilità.
 	 * @return restituisce il JSONArray contente la visibilità con la relativa data e ora.
 	 */
@@ -154,6 +151,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 	}
 	
+	
 	/**
 	 * Questo metodo serve per ottenere le informazioni sulla città da OpenWeather. Viene richiamato da
 	 * getCityWeatherRistrictfromApi(String name).
@@ -187,8 +185,8 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	
 	
 	/**
-	 * Questo metodo richiama getCityWeatherRistrictfromApi(String name) e serve per salvare le previsioni meteo per 
-	 * i prossimi cinque giorni della città passata come parametro.
+	 * Questo metodo richiama getCityWeatherRistrictfromApi(String name) e serve per salvare su file le previsioni meteo per 
+	 * i prossimi cinque giorni della città passata come parametro. Metodo utilizzato per costruire lo storico.
 	 * @param è il nome della città
 	 * @return una stringa contenente il path del file salvato.
 	 */
@@ -225,6 +223,7 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		return path;
         
 	}
+	
 	
 	/**
 	 * Questo metodo richiama getCityWeatherRistrictfromApi(String name) e serve per salvare le previsioni meteo ogni ora.
@@ -273,9 +272,15 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		
 	}
 	
+	
 	/**
-	 * Questo metodo si occupa della lettura dello storico della città passata in ingresso.
+	 * Questo metodo viene richiamato da readHistoryError e da readVisibilityHistory.
+	 * Si occupa della lettura dello storico della città passata in ingresso. A seconda che il flag sia true o false, il 
+	 * metodo andrà a leggere lo storico per il calcolo della soglia di errore e delle previsioni azzeccate oppure per 
+	 * le statistiche sulla visibilità.
+	 * 
 	 * @param name è il nome della città di cui si vuole leggere lo storico.
+	 * @param flag indica quale storico andare a leggere.
 	 * @return il JSONArray che contiene tutte le informazioni sulla visibilità.
 	 * @throws IOException se si verificano errori di input da file.
 	 */
@@ -316,27 +321,40 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	
 	
 	/**
-	 * Questo metodo serve per leggere lo storico di ogni città passata in ingresso e richiama altri metodi che 
-	 * servono per fare statistiche e filtri.
-	 * @param ArrayList di stringhe dei nomi delle città, la soglia di errore di cui si vuole sapere se le città abbiano una
-	 * soglia minore, maggiore o uguale (a seconda che value sia "$lt" o "$gt" o "=". 
-	 * @param cities contiene i nomi di tutte le città su cui si vogliono applicare i filtri.
+	 * Questo metodo serve per raccogliere le informazioni dallo storico di ogni città passata in ingresso 
+	 * e richiama altri metodi che servono per leggere lo storico stesso e metodi per calcolare statistiche e filtrarle.
+	 * 
+	 * @param cities contiene i nomi di tutte le città su cui si vogliono fare statistiche sulla soglia di
+	 *        errore e applicare i filtri.
 	 * @param error è l'intero che rappresenta la soglia con cui si vuole filtrare.
 	 * @param value esprime il filtro che si vuole applicare, cioè se si vuole sapere quali città hanno un errore maggiore
-	 *        o minore di un certo intero error
-	 * @param period rappresenta i giorni di predizione (da 1 a 5).
+	 *        o minore dell'intero error che è stato inserito. Le stringhe ammesse sono: "$lt", "$gt" e "=".
+	 * @param period rappresenta i giorni di predizione (da 1 a 5 inclusi).
 	 * @return restituisce l'ArrayList di JSONObject filtrati secondo i filtri indicati.
 	 * @throws EmptyStringException se almeno uno dei nomi inseriti è uguale alla stringa vuota.
+	 * @throws CityNotFoundException se l'utente ha inserito una città di cui non è presente lo storico. Le stringhe ammesse
+	 *         sono: "Ancona","Campobasso","Macerata","Roma","San Martino in Pensilis", "Tolentino".
+	 * @throws WrongPeriodException se l'utente ha inserito un numero che non è compreso tra 1 e 5 (inclusi).
+	 * @throws WrongValueException se l'utente ha inserito una stringa non ammessa per il value.
+	 * @throws IOException se si verificano problemi nella lettura del file.
 	 */
-	public ArrayList<JSONObject> readHistoryError(ArrayList<String> cities,int error,String value,int period) throws IOException, CityNotFoundException, EmptyStringException  {
+	public ArrayList<JSONObject> readHistoryError(ArrayList<String> cities,int error,String value,int period) 
+			throws EmptyStringException, CityNotFoundException, WrongPeriodException, WrongValueException, IOException {
 		
 			for(int i=0; i<cities.size(); i++) {
 				if(cities.get(i).isEmpty())
-					throw new EmptyStringException ("Hai dimenticato di inserire la città...");
+					throw new EmptyStringException("Hai dimenticato di inserire la città...");
 				else if(!(cities.get(i).equals("Ancona") || cities.get(i).equals("Campobasso") || cities.get(i).equals("Macerata") || cities.get(i).equals("Roma") || cities.get(i).equals("San Martino in Pensilis") || cities.get(i).equals("Tolentino")))
 					throw new CityNotFoundException("Città non trovata nello storico");
 			}
 		
+			if(period<1 || period>5)
+				throw new WrongPeriodException(period + " non è un numero ammesso. Devi inserire un numero compreso tra "
+						+ "1 e 5 inclusi.");
+			
+			if(!(value.equals("$gt") || value.equals("$lt") || value.equals("=")))
+				throw new WrongValueException(value+ " non è una stringa ammessa. "
+						+ "Devi inserire una stringa tra \"$gt\", \"$lt\" e \"=\"");
 		
 			Iterator<String> it = cities.iterator();
 			
@@ -393,18 +411,20 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 	
 	
 	/**
-	 * Questo metodo serve per andare a leggere i file su cui sono salvate le informazioni relative alla visibilità 
-	 * per 3 settimane. Dopo aver salvato in un ArrayList di JSONArray le informazioni di ogni città, lo passa al metodo
-	 * che serve per calcolare le statistiche sulla visibilità.
-	 * @param cities rappresenta i nomi delle città su cui si vogliono fare statistiche.
+	 * Questo metodo va a richiamare readHistory per leggere i file su cui sono salvate le informazioni relative 
+	 * alla visibilità per 3 settimane. Dopo aver salvato in un ArrayList di JSONArray le informazioni di ogni città, 
+	 * lo passa al metodo che serve per calcolare le statistiche sulla visibilità.
+	 * 
+	 * @param cities rappresenta i nomi delle città su cui si vogliono fare statistiche. Le città ammesse sono
+	 *        Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino.
 	 * @param period rappresenta il periodo su cui si vuole fare la statistica.
-	 * @throws IOException se si verifica un errore di lettura del file.
 	 * @throws EmptyStringException se almeno una delle stringhe immesse è vuota.
 	 * @throws CityNotFoundException se la città immessa non è una tra quelle indicate sopra.
-	 * @throws EmptyStringException se una delle stringhe immesse è vuota.
 	 * @throws WrongPeriodException se viene inserita una stringa errata per period.
+	 * @throws IOException se si verifica un errore di lettura del file.
 	 */
-	public ArrayList<JSONArray> readVisibilityHistory(ArrayList<String> cities, String period) throws IOException, EmptyStringException, CityNotFoundException, WrongPeriodException {
+	public ArrayList<JSONArray> readVisibilityHistory(ArrayList<String> cities, String period) 
+			throws EmptyStringException, CityNotFoundException, WrongPeriodException, IOException {
 		
 		Iterator<String> it1 = cities.iterator();
 		Iterator<String> it2 = cities.iterator();

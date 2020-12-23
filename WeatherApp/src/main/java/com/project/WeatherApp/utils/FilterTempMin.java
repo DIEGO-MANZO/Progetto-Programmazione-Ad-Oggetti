@@ -23,10 +23,12 @@ public class FilterTempMin implements FilterStats {
 	 * filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e le relative 
 	 * temperature minime. 
 	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di temperatura minima.
+	 * 
 	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
 	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
 	 * @return JSONArray come descritto sopra. 
-	 * @throws WrongValueException se viene inserita una stringa errata.
+	 * @throws WrongValueException se viene inserita una stringa non ammessa, cioè una stringa che non sia max,MAX,Max o 
+	 *         min, MIN, Min.
 	 */
 	
 	public JSONArray oneDay (ArrayList<String> cities, String value) throws WrongValueException {
@@ -108,14 +110,15 @@ public class FilterTempMin implements FilterStats {
 	
 	
 	/**
-	 * Questo metodo calcola la media della temperatura minima su cinque giorni  delle città passate in ingresso e
+	 * Questo metodo calcola la media della temperatura minima su cinque giorni delle città passate in ingresso e
 	 * filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e le relative 
 	 * temperature minime. 
 	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di temperatura minime.
 	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
 	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
 	 * @return JSONArray come descritto sopra. 
-	 * @throws WrongValueException se viene inserita una stringa errata.
+	 * @throws WrongValueException se viene inserita una stringa non ammessa, cioè una stringa che non sia max,MAX,Max o 
+	 *         min, MIN, Min.
 	 */
 	
 	public JSONArray fiveDay (ArrayList<String> cities, String value) throws WrongValueException {

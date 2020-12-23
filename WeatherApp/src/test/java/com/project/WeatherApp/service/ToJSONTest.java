@@ -48,7 +48,7 @@ class ToJSONTest {
 	}
 	
 	/**
-     * Questo Test verifica se l'oggetto city viene converito correttamente.
+     * Questo Test verifica se l'oggetto city viene converito correttamente in JSONObject.
      */
 	@Test
     @DisplayName("Corretto parsing")
@@ -59,9 +59,7 @@ class ToJSONTest {
         city.setCountry("IT");
         city.setCoordinates(coordinates);
         Weather weat = new Weather("cloudy","clouds",10000,270,270,270,"25-12-2020");
-        //Weather weat = new Weather("cloudy","clouds",10000,270,270,270,"26-12-2020");
         weather.add(weat);
-        //weather.add(weat1);
         city.setVector(weather);
         
         JSONObject weatherObject = new JSONObject();

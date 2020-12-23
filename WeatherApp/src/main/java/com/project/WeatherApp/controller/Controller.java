@@ -99,13 +99,14 @@ public class Controller {
 	 * a seconda del "period"(giornaliera, settimanale, trisettimanale) su cui si vuole fare 
 	 * statistica. Le città ammesse sono solo Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino.
 	 * 
-	 * @param è un JSONObject come sopra indicato.
+	 * @param body è un JSONObject come sopra indicato.
 	 * @return le statistiche di ciascuna città con periodicità specificata dall'utente.
 	 * 
 	 * @throws EmptyStringException se una delle stringhe immesse è vuota.
 	 * @throws CityNotFoundException se la città immessa non è una tra quelle indicate sopra.
 	 * @throws WrongPeriodException se viene inserita una stringa errata per period, cioè una stringa diversa da
 	 *         "giornaliera", "settimanale", "trisettimanale".
+	 * @throws IOException se ci sono errori di input da file.
 	 */
 	
 	@PostMapping(value="/statsHistory")
@@ -167,16 +168,19 @@ public class Controller {
 	 * Macerata, Roma, San Martino in Pensilis e Tolentino, perché sono le sole di cui si hanno i dati necessari.
 	 * 
 	 * 
-	 * @param è un JSONObject come sopra indicato.
+	 * @param body è un JSONObject come sopra indicato.
 	 * @return un JSONArray contenente i JSONObject con tutte le informazioni sulle previsioni azzeccate e l'errore AME di
 	 *         ogni città, infine un ulteriore JSONObject che contiene le città che rispettano i filtri richiesti dallo
 	 *         utente.
 	 * @throws CityNotFoundException se tra i nomi delle città ce n'è almeno uno diverso da quelli indicati sopra.
 	 * @throws EmptyStringException se tra i nomi delle città ce n'è almeno uno vuoto.
+	 * @throws WrongValueException se si è inserito una stringa non ammessa per value.
+	 * @throws WrongPeriodException se si è inserito un numero non ammesso per period.
+	 * @throws IOException se si sono verificati errori di input da file.
 	 */
 	
 	@PostMapping("/errors")
-	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws CityNotFoundException, EmptyStringException, IOException {
+	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws CityNotFoundException, EmptyStringException, IOException, WrongPeriodException, WrongValueException {
 		
 		JSONObject object = new JSONObject(body);
         JSONArray array = new JSONArray();
@@ -202,6 +206,12 @@ public class Controller {
         	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
         }
         catch(CityNotFoundException e) {
+        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+        }
+        catch(WrongValueException e) {
+        	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
+        }
+        catch(WrongPeriodException e) {
         	return new ResponseEntity<>(e.getMex(),HttpStatus.BAD_REQUEST);
         }
 		
@@ -242,7 +252,7 @@ public class Controller {
      *		"period" : "five day"
 	 *	}
 	 * 
-	 * @param cityName rappresenta la città di cui si richiede la statistica.
+	 * @param body è un JSONObject come sopra indicato.
 	 * @return il JSONObject che contiene la statistica richiesta.
 	 * @throws WrongPeriodException se l'utente ha immesso una stringa per period non ammessa.
 	 * @throws IOException se c'è stato un errore di lettura del file.
@@ -294,7 +304,7 @@ public class Controller {
 	 * "period"(1 o 5 giorni).
 	 * 
 	 * 
-	 * @param è un JSONObject come sopra indicato.
+	 * @param body è un JSONObject come sopra indicato.
 	 * @return il JSONArray che contiene tanti JSONObject quante sono le città specificate nella richiesta
 	 *         ognuno dei quali contiene il nome della città e la media del "param" indicato. In più il JSONArray contiene
 	 *         un ultimo JSONObject al cui interno è contenuta la massima o minima media a seconda del valore indicato.

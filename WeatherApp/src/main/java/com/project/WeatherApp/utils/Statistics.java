@@ -8,7 +8,7 @@ import com.project.WeatherApp.service.ServiceImpl;
 import com.project.WeatherApp.utils.error.ErrorCalculator;
 
 
-/** Questa classe contiene i metodi necessari alle statistiche ed estende la classe Error.
+/** Questa classe contiene i metodi necessari alle statistiche ed estende la classe ErrorCalculator.
  * @author Federica Parlapiano
  * @author Francesca Palazzetti 
  */
@@ -70,6 +70,7 @@ public class Statistics extends ErrorCalculator {
         
        	effectiveDate = date;
         i=0;
+        
         //calcolo della varianza di visibilità
         while(date.equals(effectiveDate)) {
         	variance += ((int)((city.getVector().get(i).getVisibility())-visibility_ave))^2;

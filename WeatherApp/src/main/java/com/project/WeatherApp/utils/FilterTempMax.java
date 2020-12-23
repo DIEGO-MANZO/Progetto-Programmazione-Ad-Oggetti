@@ -24,10 +24,12 @@ public class FilterTempMax implements FilterStats {
 	 * filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e le relative 
 	 * temperature massime. 
 	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di temperatura massima.
+	 * 
 	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
 	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
 	 * @return JSONArray come descritto sopra. 
-	 * @throws WrongValueException se viene inserita una stringa errata.
+	 * @throws WrongValueException se viene inserita una stringa non ammessa, cioè una stringa che non sia max,MAX,Max o 
+	 *         min, MIN, Min.
 	 */
 	
 	public JSONArray oneDay (ArrayList<String> cities, String value) throws WrongValueException {
@@ -112,10 +114,12 @@ public class FilterTempMax implements FilterStats {
 	 * filtra rispetto al value. Restituisce un JSONArray contenente JSONObject che rappresentano le città e le relative 
 	 * temperature massime. 
 	 * A seconda di value c'è un JSONObject che rappresenta la città con max/min valore di temperatura massima.
+	 * 
 	 * @param cities rappresenta le città con cui si vuole fare la statistica e il filtraggio
 	 * @param value rappresenta il valore con cui si vuole fare il filtraggio.
 	 * @return JSONArray come descritto sopra. 
-	 * @throws WrongValueException se viene inserita una stringa errata.
+	 * @throws WrongValueException se viene inserita una stringa non ammessa, cioè una stringa che non sia max,MAX,Max o 
+	 *         min, MIN, Min.
 	 */
 	
 	public JSONArray fiveDay (ArrayList<String> cities, String value) throws WrongValueException {

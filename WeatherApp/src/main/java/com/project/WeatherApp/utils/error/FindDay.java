@@ -3,12 +3,30 @@ package com.project.WeatherApp.utils.error;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Questa classe contiene viene estesa da ErrorCalculator.
+ * @author Federica Parlapiano
+ * @author Francesca Palazzetti
+ */
+
 public class FindDay {
 
+	/**
+	 * Costruttore 
+	 */
 	public FindDay() {
 		
 	}
 	
+	/**
+	 * Questo metodo viene richiamato dal metodo di Error Calculator per il calcolo dell'errore e si occupa di trovare il 
+	 * giorno presente nello storico da cui partire o terminare (a seconda di quando viene richiamato)
+	 * il calcolo dell'errore.
+	 * 
+	 * @param cityVisibility è il JSONArray che contiene le informazioni sulla visibilità e sulle date della stessa.
+	 * @param period rappresenta i giorni di predizione, che indicano il giorno da ricercare.
+	 * @return il JSONObject che contiene la data ricercata e la posizione in cui si trova nel JSONArray.
+	 */
 	public JSONObject findDay(JSONArray cityVisibility, int period) {
 		
 		String date="";

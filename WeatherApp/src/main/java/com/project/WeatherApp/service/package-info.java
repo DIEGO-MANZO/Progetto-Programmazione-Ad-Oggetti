@@ -1,8 +1,8 @@
 /**
- * Questo package contiene le classi necessarie per raccogliere i dati da OpenWeather.
+ * Questo package contiene le classi i cui metodi raccolgono i dati da OpenWeather e li comunicano al controller.
  */
 /**
- * @author Federica
- * @author Francesca
+ * @author Federica Parlpiano
+ * @author Francesca Palazzetti
  */
 package com.project.WeatherApp.service;

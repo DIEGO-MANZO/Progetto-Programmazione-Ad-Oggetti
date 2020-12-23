@@ -17,13 +17,15 @@ public class ErrorCalculator extends FindDay {
 	 * Costruttore della classe.
 	 */
 	public ErrorCalculator() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
+	
 	/**
-	 * Questo metodo serve a calcolare l'errore sulle predizioni di ogni città indicata nell'ArrayList. Chiamerà, infine,
+	 * Questo metodo serve per calcolare l'errore sulle predizioni di ogni città indicata nell'ArrayList. Chiamerà, infine,
 	 * il metodo errorFilter di ErrorFilter responsabile del filtraggio della soglia di errore. Richiama il metodo
 	 * findDay della classe FindDay, che si occupa di calcolare il giorno e l'ora da cui partire per il calcolo.
+	 * 
 	 * @param cities è l'ArrayList di Stringhe contenenti i nomi delle città di cui si vuole conoscere la soglia di errore.
 	 * @param visibilityInfo è l'ArrayList contenente le informazioni relative alla visibilità di ogni città indicata 
 	 *        nell'ArrayList di Stringhe cities.

@@ -1,9 +1,9 @@
 /**
- * Questo package serve per permettere al client di fare chiamate attraverso il Server.
+ * Questo package serve per filtrare le statistiche.
  */
 /**
- * @author Federica
- * @author Francesca
+ * @author Federica Parlapiano
+ * @author Francesca Palazzetti
  */
 
 package com.project.WeatherApp.utils;

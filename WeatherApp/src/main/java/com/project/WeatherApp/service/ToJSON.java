@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-/** Questa classe contiene il metodo per il parsing di un oggetto City.
+/** Questa classe contiene il metodo per la scrittura di un oggetto City in un JSONObject.
  *  @author Federica Parlapiano
  * @author Francesca Palazzetti 
  */
@@ -16,6 +16,7 @@ public class ToJSON {
 	
 	/**
 	 * Questo metodo restituisce il JSONObject corrispondente all'oggetto City passato in ingresso.
+	 * 
 	 * @param city città che si vuole come un JSONObject.
 	 * @return il JSONObject che rappresenta la città.
 	 */
