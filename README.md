@@ -128,7 +128,7 @@ La prima rotta restituisce un JSONArray di questo tipo, cioè contenente i JSONO
 La seconda rotta vi permette di salvare le informazioni attuali sulla visibilità della città che volete. Il programma creerà un file col nome "HourlyReportcityName.txt" che si aggiornerà ogni ora. Se è già presente un file con lo stesso nome, il programma lo aprirà e, senza eliminare ciò che è presente, inizierà a scrivere le previsioni. Alla fine riceverete un messaggio di questo tipo:
 
 ```
-Il file è stato salvato in C:/Users/feder/eclipse-workspace/RovaniemiHourlyReport.txt     DA SISTEMARE
+Il file è stato salvato in  C:\Users\feder\eclipse-workspace\Progetto\Progetto-Programmazione-Ad-Oggetti\WeatherApp/FermoHourlyReport.txt
 
 ```
 
@@ -138,27 +138,20 @@ Il file è stato salvato in C:/Users/feder/eclipse-workspace/RovaniemiHourlyRepo
 La terza rotta è di tipo POST e richiede un body di questo tipo:
 
 ```
-{​​
-
+{
     "cities": [
-
-      {​​
-
+      {
         "name": "Ancona"
-
-      }​​,
-
-      {​​
-
-        "name": "Campobasso"
-
-      }​​
-
+      },
+      {
+        "name": "San Martino in Pensilis"
+      },
+      {
+        "name": "Tolentino"
+      }
     ],
-
     "period": "settimanale"
-
-}​​
+}
 ```
 
 - **cities** è il JSONArray che contiene i nomi delle città di cui si vuole fare statistica. Le città ammesse sono Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino. Si può inserire una loro combinazione.
@@ -233,29 +226,22 @@ Se l'utente inserisce tutto correttamente, riceverà un JSONArray in risposta co
 ## 4.   /errors
 La quarta rotta è una POST e richiede un body di questo tipo:
   ```
-    {​​
-         "cities": [
-          
-           {​​
-             
-             "name": "Tolentino"
-            
-            }​​,
-           
-           {​​
-            
-            "name": "San Martino in Pensilis"
-           
-           }​​,
-
-        ],
-       
-       "error": 1,
-       
-       "value": "$gt",
-       
-       "period": 3
-}​​
+    {
+    "cities": [
+      {
+        "name": "Ancona"
+      },
+      {
+        "name": "San Martino in Pensilis"
+      },
+      {
+        "name": "Tolentino"
+      }
+    ],
+    "error": 0,
+    "value" : "=",
+    "period" : 1
+}
 
   ```
   
@@ -324,7 +310,7 @@ Inoltre il nostro programma offre funzionalità aggiuntive. Infatti, se l'utente
 
 N° | Tipo | Rotta | Descrizione
 ----- | ------------ | -------------------- | ----------------------
-[5](#5) | ` GET ` | `/restrictCityWeather?cityName=Tolentino` | *restituisce un JSONObject contenente le previsioni su temperatura massima, minima e percepita e sulla visibilità dal giorno della richiesta ai cinque giorni successivi.*
+[5](#5) | ` GET ` | `/weather?cityName=Tolentino` | *restituisce un JSONObject contenente le previsioni su temperatura massima, minima e percepita e sulla visibilità dal giorno della richiesta ai cinque giorni successivi.*
 [6](#6) | ` POST ` | `/stats` | *restituisce un JSONObject contenente le statistiche di un'unica città sui parametri indicati in ingresso su 1 o 5 giorni.*
 [7](#7) | ` POST ` | `/filters` | *restituisce il JSONArray che contiene tanti JSONOject quante sono le città specificate nella richiesta(si veda dopo) ogni JSONObject contiene il nome della  città e la media del parametro indicato nella richiesta. In più il JSONArray contiene un altro JSONObject al cui interno è contenuta la più alta/bassa media a seconda del valore indicato in ingresso.*
 
@@ -332,7 +318,7 @@ N° | Tipo | Rotta | Descrizione
 * #### Come può l'utente effettuare richieste? Cosa riceverà in risposta? 
 
 <a name=5></a>
-## 5.   /restrictCityWeather?cityName=
+## 5.   /weather?cityName=
 
 ```
 localhost:8080/restrictCityWeather?cityName=Tolentino
