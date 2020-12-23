@@ -110,7 +110,8 @@ public class Controller {
 	 */
 	
 	@PostMapping(value="/statsHistory")
-    public ResponseEntity<Object> statsHistory(@RequestBody String body) throws EmptyStringException, CityNotFoundException, WrongPeriodException, IOException {
+    public ResponseEntity<Object> statsHistory(@RequestBody String body) 
+    		throws EmptyStringException, CityNotFoundException, WrongPeriodException, IOException {
 		
 		JSONObject object = new JSONObject(body);
         JSONArray array = new JSONArray();
@@ -180,7 +181,8 @@ public class Controller {
 	 */
 	
 	@PostMapping("/errors")
-	public ResponseEntity<Object> filtersHistory(@RequestBody String body) throws CityNotFoundException, EmptyStringException, IOException, WrongPeriodException, WrongValueException {
+	public ResponseEntity<Object> filtersHistory(@RequestBody String body) 
+			throws EmptyStringException, CityNotFoundException, WrongValueException, WrongPeriodException, IOException {
 		
 		JSONObject object = new JSONObject(body);
         JSONArray array = new JSONArray();
