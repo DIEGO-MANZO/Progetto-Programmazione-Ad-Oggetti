@@ -80,6 +80,8 @@ public class FindDay {
 		information.put("date", firstDay.getJSONObject(i-1).getString("data"));
 		information.put("position", i-1);
 		
+		System.out.print(information);
+		
 		return information;
 		
 		
