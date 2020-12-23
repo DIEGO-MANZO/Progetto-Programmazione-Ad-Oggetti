@@ -168,7 +168,7 @@ public class City {
 	}
 	
 	/**
-     * Metodo che setta l'id della città.
+     * Metodo che scrive il vettore come una stringa.
      * @return String toReturn che rappresenta le previsioni meteo.
      */
 	public String toStringVector() {

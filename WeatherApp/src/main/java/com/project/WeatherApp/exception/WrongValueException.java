@@ -8,11 +8,6 @@ package com.project.WeatherApp.exception;
  *
  */
 public class WrongValueException extends Exception {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	String mex;
 	/**
@@ -25,7 +20,7 @@ public class WrongValueException extends Exception {
 	}
 	
 	/**
-	 * Restituisce un messaggio di errore passato al costruttore quando viene inserita una stringa non ammessa.
+	 * Restituisce un messaggio di errore passato al costruttore quando viene inserita una stringa non ammessa per il value.
 	 * @return String che contiene il messaggio d'errore che viene stampato.
 	 */
 	public String getMex() {

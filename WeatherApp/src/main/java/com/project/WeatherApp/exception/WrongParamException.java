@@ -1,7 +1,7 @@
 package com.project.WeatherApp.exception;
 
 /**
- * Questa classe  contiene il metodo che segnala l'eccezione riguardante una stringa non ammessa. 
+ * Questa classe  contiene il metodo che segnala l'eccezione riguardante una stringa non ammessa per param. 
  * @author Federica Parlapiano
  * @author Francesca Palazzetti
  *
@@ -19,7 +19,7 @@ public class WrongParamException extends Exception{
 	}
 	
 	/**
-	 * Restituisce un messaggio di errore passato al costruttore quando viene inserita una stringa non ammessa.
+	 * Restituisce un messaggio di errore passato al costruttore quando viene inserita una stringa non ammessa per param.
 	 * @return String che contiene il messaggio d'errore che viene stampato.
 	 */
 	public String getMex() {

@@ -6,8 +6,6 @@ package com.project.WeatherApp.model;
  * @author Francesca
  */
 public class Coordinates {
-
-	static final long serialVersionUID = 1;
 	
 	private double latitude;
 	private double longitude;
