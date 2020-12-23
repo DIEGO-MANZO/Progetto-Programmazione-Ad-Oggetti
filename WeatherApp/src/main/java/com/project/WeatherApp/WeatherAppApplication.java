@@ -1,11 +1,8 @@
 package com.project.WeatherApp;
 
-import java.util.ArrayList;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.project.WeatherApp.service.Service;
 import com.project.WeatherApp.service.ServiceImpl;
 
 /** Avvia l'applicazione Spring.

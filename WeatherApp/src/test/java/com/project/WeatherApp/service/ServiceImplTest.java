@@ -56,7 +56,7 @@ class ServiceImplTest {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 		String today = date.format(new Date());
 		
-		String path = "C:/Users/feder/eclipse-workspace/"+cityName+"_"+today+".txt";
+		String path = System.getProperty("user.dir") +cityName+"_"+today+ ".txt";
 		
         assertEquals(path,service.save(cityName));
         

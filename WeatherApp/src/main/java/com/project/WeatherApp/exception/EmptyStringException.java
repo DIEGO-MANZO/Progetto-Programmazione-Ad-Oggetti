@@ -19,7 +19,7 @@ public class EmptyStringException extends Exception {
 	}
 	
 	/**
-	 * Restituisce un messaggio di errore passato al costruttore quando viene inserita una stringa non ammessa.
+	 * Restituisce un messaggio di errore passato al costruttore quando viene inserita una stringa vuota.
 	 * @return String che contiene il messaggio d'errore che viene stampato.
 	 */
 	public String getMex() {

@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -206,8 +205,6 @@ public class ServiceImpl implements com.project.WeatherApp.service.Service {
 		String today = date.format(new Date());
         
 		String nomeFile = cityName+"_"+today;
-        
-		System.out.println(System.getProperty("user.dir"));
 		
 		String path = System.getProperty("user.dir")+nomeFile+".txt";
         
