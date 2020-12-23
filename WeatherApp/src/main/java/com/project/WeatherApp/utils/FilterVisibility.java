@@ -37,7 +37,6 @@ public class FilterVisibility implements FilterStats{
 		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
 		ArrayList<JSONObject> averageVisibility = new ArrayList<JSONObject>();
 		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
-		ArrayList<String> names = new ArrayList<String>();
 		
 		Iterator<String> it = cities.iterator();
 		
@@ -74,35 +73,15 @@ public class FilterVisibility implements FilterStats{
 				
 					if(max_visibility>request1max) {
 						request1max = max_visibility;
-						names = new ArrayList<String>();
-						names.add(cities.get(i));
-					}
-					else if(max_visibility==request1max) {
-						names.add(cities.get(i));
 					}
 					if(min_visibility>request2max) {
 						request2max = min_visibility;
-						names = new ArrayList<String>();
-						names.add(cities.get(i));
-					}
-					else if(min_visibility==request2max) {
-						names.add(cities.get(i));
 					}
 					if(visibility_average>request3max) {
 						request3max = visibility_average;
-						names = new ArrayList<String>();
-						names.add(cities.get(i));
-					}
-					else if(visibility_average==request3max) {
-						names.add(cities.get(i));
 					}
 					if(visibility_variance>=request4max) {
-						request3max = visibility_average;
-						names = new ArrayList<String>();
-						names.add(cities.get(i));
-					}
-					else if(visibility_variance==request4max) {
-						names.add(cities.get(i));
+						request4max = visibility_variance;
 					}
 					
 					i++;
@@ -113,35 +92,15 @@ public class FilterVisibility implements FilterStats{
 				
 				if(max_visibility<request1max) {
 					request1max = max_visibility;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(max_visibility==request1max) {
-					names.add(cities.get(i));
 				}
 				if(min_visibility<request2max) {
 					request2max = min_visibility;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(min_visibility==request2max) {
-					names.add(cities.get(i));
 				}
 				if(visibility_average<request3max) {
 					request3max = visibility_average;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
 				}
-				else if(visibility_average==request3max) {
-					names.add(cities.get(i));
-				}
-				if(visibility_variance<=request4max) {
-					request3max = visibility_average;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(visibility_variance==request4max) {
-					names.add(cities.get(i));
+				if(visibility_variance<request4max) {
+					request4max = visibility_variance;
 				}
 				
 				i++;
@@ -153,14 +112,12 @@ public class FilterVisibility implements FilterStats{
 		JSONObject object = new JSONObject();
 		
 		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			object.put("City with max average", names);
 			object.put("max max visibility", request1max);
 			object.put("max min visibility", request2max);
 			object.put("max visibility average", request3max);
 			object.put("max variance average", request4max);
 		}
 		else { 
-			//object.put("City with min average", name);
 			object.put("min max visibility", request1min);
 			object.put("min min visibility", request2min);
 			object.put("min visibility average", request3min);
@@ -193,7 +150,6 @@ public class FilterVisibility implements FilterStats{
 		ArrayList<JSONObject> average = new ArrayList<JSONObject>();
 		ArrayList<JSONObject> averageVisibility = new ArrayList<JSONObject>();
 		ArrayList<JSONObject> objects = new ArrayList<JSONObject>();
-		ArrayList<String> names = new ArrayList<String>();
 		
 		Iterator<String> it = cities.iterator();
 		
@@ -230,35 +186,15 @@ public class FilterVisibility implements FilterStats{
 				
 				if(max_visibility>request1max) {
 					request1max = max_visibility;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(max_visibility==request1max) {
-					names.add(cities.get(i));
 				}
 				if(min_visibility>request2max) {
 					request2max = min_visibility;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(min_visibility==request2max) {
-					names.add(cities.get(i));
 				}
 				if(visibility_average>request3max) {
 					request3max = visibility_average;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
 				}
-				else if(visibility_average==request3max) {
-					names.add(cities.get(i));
-				}
-				if(visibility_variance>=request4max) {
-					request3max = visibility_average;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(visibility_variance==request4max) {
-					names.add(cities.get(i));
+				if(visibility_variance>request4max) {
+					request4max = visibility_variance;
 				}
 				
 				i++;
@@ -268,35 +204,15 @@ public class FilterVisibility implements FilterStats{
 				
 				if(max_visibility<request1max) {
 					request1max = max_visibility;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(max_visibility==request1max) {
-					names.add(cities.get(i));
 				}
 				if(min_visibility<request2max) {
 					request2max = min_visibility;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(min_visibility==request2max) {
-					names.add(cities.get(i));
 				}
 				if(visibility_average<request3max) {
 					request3max = visibility_average;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
 				}
-				else if(visibility_average==request3max) {
-					names.add(cities.get(i));
-				}
-				if(visibility_variance<=request4max) {
-					request3max = visibility_average;
-					names = new ArrayList<String>();
-					names.add(cities.get(i));
-				}
-				else if(visibility_variance==request4max) {
-					names.add(cities.get(i));
+				if(visibility_variance<request4max) {
+					request4max = visibility_variance;
 				}
 				
 				i++;
@@ -308,14 +224,12 @@ public class FilterVisibility implements FilterStats{
 		JSONObject object = new JSONObject();
 		
 		if(value.equals("max") || value.equals("MAX") || value.equals("Max")) {
-			//object.put("City with max average", name);
 			object.put("max max visibility", request1max);
 			object.put("max min visibility", request2max);
 			object.put("max visibility average", request3max);
 			object.put("max variance average", request4max);
 		}
 		else { 
-			//object.put("City with min average", name);
 			object.put("min max visibility", request1min);
 			object.put("min min visibility", request2min);
 			object.put("min visibility average", request3min);
