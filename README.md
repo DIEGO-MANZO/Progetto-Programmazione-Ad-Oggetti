@@ -16,12 +16,14 @@ La nostra applicazione permette di avere previsioni principalmente sulla visibil
 * [Rotte Aggiuntive](#rotteaggiuntive)
 * [Test](#test)
 * [Documentazione](#doc)
+* [Struttura del progetto](#struttura)
 * [Autori](#autor)
 
 <a name="intro"></a>
 ## Introduzione
 
 Il programma WeatherApp offre diverse possibilità. Si concetra principalmente sulle previsioni della visibilità di una città e le relative statistiche, ma offre anche il confronto tra più città per conoscere l'affidabilità delle previsioni. Inoltre è possibile conoscere anche le previsioni sulla temperatura massima, minima e percepita e di farne statistiche.
+Non appena sarà partita, l'applicazione inizierà a raccogliere i dati sulla visibilità di 6 città (Ancona, Campobasso, Macerata, Roma, San Martino in Pensilis e Tolentino) e li salverà su un file ogni ora.
 
 
 <a name="install"></a>
@@ -169,7 +171,7 @@ Hai dimenticato di inserire la città...
   * Nel caso in cui l'utente inserisca una città non ammessa viene generata un'eccezione del tipo ***CityNotFoundException*** che restituisce un messaggio di questo tipo:
 
    ```
-    New York non è presente nello storico. Puoi scegliere tra: "Ancona", "Campobasso", "Macerata", "Roma", "San Martino in Pensilis" e "Tolentino".
+    Tolentì non è presente nello storico. Puoi scegliere tra: "Ancona", "Campobasso", "Macerata", "Roma", "San Martino in Pensilis" e "Tolentino".
    ```
 
    * Invece se viene inserito un periodo diverso da quelli sopra citati viene generata un'eccezione del tipo ***WrongPeriodException*** che restituisce un messaggio di questo tipo:
@@ -266,6 +268,20 @@ Hai dimenticato di inserire la città...
     Agrigento non è presente nello storico. Puoi scegliere tra: "Ancona", "Campobasso", "Macerata", "Roma", "San Martino in Pensilis" e "Tolentino".
     
    ```
+   
+  * Nel caso in cui l'utente inseriscsa un valore non ammesso, viene generata una ***WrongValueException***, che restituisce un messaggio di questo tipo:
+  
+     ```
+     Buon Natale è una stringa errata! Devi inserire una stringa tra max/MAX/Max oppure min/MIN/Min
+   
+     ```
+   * Nel caso in cui l'utente inserisca un numero diverso da 1 o 5, viene generata una ***WrongPeriodException***, che restituisce un messaggio di questo tipo:
+   
+     ```
+     9 non è un numero ammesso. Inserisci un numero che sia o 1 o 5.
+     
+     ```
+
  
   Se l'utente inserisce tutto correttamente, riceverà un JSONArray in risposta come segue
   
@@ -551,6 +567,158 @@ Abbiamo implementato i seguenti [test](https://github.com/FedericaParlapiano/Pro
 <a name="doc"></a>
 ## Documentazione
 Il codice java è interamente documentato in [Javadoc](https://github.com/FedericaParlapiano/Progetto-Programmazione-Ad-Oggetti/tree/master/WeatherApp/doc).
+
+
+
+<a name="struttura"></a>
+## Documentazione
+
+La struttura del nostro progetto è la seguente:
+
+├── README.md 
+├── UML
+│   ├── Controller.jpg
+│   ├── error.jpg
+│   ├── exception.jpg
+│   ├── History Sequence Diagram part1.jpg
+│   ├── Model.jpg
+│   ├── Progetto Class Diagram.jpg
+│   ├── Progetto Sequence Diagram.jpg
+│   ├── Progetto Use Case Diagram.jpg
+│   ├── Sequence Diagram part2.jpg
+│   ├── service.jpg
+│   ├── Test.jpg
+│   └── utils.jpg
+└── WeatherApp
+    ├── doc
+    │   ├── allclasses-index.html
+    │   ├── allpackages-index.html
+    │   ├── com
+    │   │   └── project
+    │   │       └── WeatherApp
+    │   │           └── controller
+    │   │               ├── class-use
+    │   │               │   └── Controller.html
+    │   │               ├── Controller.html
+    │   │               ├── package-summary.html
+    │   │               ├── package-tree.html
+    │   │               └── package-use.html
+    │   ├── constant-values.html
+    │   ├── deprecated-list.html
+    │   ├── element-list
+    │   ├── help-doc.html
+    │   ├── index-files
+    │   │   ├── index-1.html
+    │   │   ├── index-2.html
+    │   │   ├── index-3.html
+    │   │   └── index-4.html
+    │   ├── index.html
+    │   ├── jquery-ui.overrides.css
+    │   ├── member-search-index.js
+    │   ├── module-search-index.js
+    │   ├── overview-tree.html
+    │   ├── package-search-index.js
+    │   ├── resources
+    │   │   ├── glass.png
+    │   │   └── x.png
+    │   ├── script-dir
+    │   │   ├── images
+    │   │   │   ├── ui-bg_glass_55_fbf9ee_1x400.png
+    │   │   │   ├── ui-bg_glass_65_dadada_1x400.png
+    │   │   │   ├── ui-bg_glass_75_dadada_1x400.png
+    │   │   │   ├── ui-bg_glass_75_e6e6e6_1x400.png
+    │   │   │   ├── ui-bg_glass_95_fef1ec_1x400.png
+    │   │   │   ├── ui-bg_highlight-soft_75_cccccc_1x100.png
+    │   │   │   ├── ui-icons_222222_256x240.png
+    │   │   │   ├── ui-icons_2e83ff_256x240.png
+    │   │   │   ├── ui-icons_454545_256x240.png
+    │   │   │   ├── ui-icons_888888_256x240.png
+    │   │   │   └── ui-icons_cd0a0a_256x240.png
+    │   │   ├── jquery-3.5.1.min.js
+    │   │   ├── jquery-ui.min.css
+    │   │   ├── jquery-ui.min.js
+    │   │   └── jquery-ui.structure.min.css
+    │   ├── script.js
+    │   ├── search.js
+    │   ├── stylesheet.css
+    │   ├── tag-search-index.js
+    │   └── type-search-index.js
+    ├── error
+    │   ├── Ancona.txt
+    │   ├── Campobasso.txt
+    │   ├── Macerata.txt
+    │   ├── Roma.txt
+    │   ├── San Martino in Pensilis.txt
+    │   └── Tolentino.txt
+    ├── mvnw
+    ├── mvnw.cmd
+    ├── pom.xml
+    ├── src
+    │   ├── main
+    │   │   ├── java
+    │   │   │   └── com
+    │   │   │       └── project
+    │   │   │           └── WeatherApp
+    │   │   │               ├── controller
+    │   │   │               │   ├── Controller.java
+    │   │   │               │   └── package-info.java
+    │   │   │               ├── exception
+    │   │   │               │   ├── CityNotFoundException.java
+    │   │   │               │   ├── EmptyStringException.java
+    │   │   │               │   ├── package-info.java
+    │   │   │               │   ├── WrongParamException.java
+    │   │   │               │   ├── WrongPeriodException.java
+    │   │   │               │   └── WrongValueException.java
+    │   │   │               ├── model
+    │   │   │               │   ├── City.java
+    │   │   │               │   ├── Coordinates.java
+    │   │   │               │   ├── package-info.java
+    │   │   │               │   └── Weather.java
+    │   │   │               ├── service
+    │   │   │               │   ├── package-info.java
+    │   │   │               │   ├── ServiceImpl.java
+    │   │   │               │   ├── Service.java
+    │   │   │               │   └── ToJSON.java
+    │   │   │               ├── utils
+    │   │   │               │   ├── error
+    │   │   │               │   │   ├── ErrorCalculator.java
+    │   │   │               │   │   ├── ErrorFilter.java
+    │   │   │               │   │   ├── FindDay.java
+    │   │   │               │   │   └── package-info.java
+    │   │   │               │   ├── FilterFeelsLike.java
+    │   │   │               │   ├── Filter.java
+    │   │   │               │   ├── FilterStats.java
+    │   │   │               │   ├── FilterTempMax.java
+    │   │   │               │   ├── FilterTempMin.java
+    │   │   │               │   ├── FilterVisibility.java
+    │   │   │               │   ├── package-info.java
+    │   │   │               │   ├── Statistics.java
+    │   │   │               │   └── VisibilityStatistics.java
+    │   │   │               └── WeatherAppApplication.java
+    │   │   └── resources
+    │   │       └── application.properties
+    │   └── test
+    │       └── java
+    │           └── com
+    │               └── project
+    │                   └── WeatherApp
+    │                       ├── service
+    │                       │   ├── ServiceImplTest.java
+    │                       │   └── ToJSONTest.java
+    │                       ├── utils
+    │                       │   ├── FilterTest.java
+    │                       │   └── FilterVisibilityTest.java
+    │                       └── WeatherAppApplicationTests.java
+    └── visibility
+        ├── Ancona.txt
+        ├── Campobasso.txt
+        ├── Macerata.txt
+        ├── Roma.txt
+        ├── San Martino in Pensilis.txt
+        └── Tolentino.txt
+
+
+
 
 <a name="autor"></a>
 ### Autori
